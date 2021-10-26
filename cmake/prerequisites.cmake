@@ -119,12 +119,13 @@ endif ()
 #include(GNUInstallDirs)
 
 
-if ((${CMAKE_VERBOSE_DEBUG} AND ${USE_DEBUG}) OR ($ENV{CI_RUNNING}))
+#set(CMAKE_VERBOSE_MAKEFILE ON)
+if ((${CMAKE_VERBOSE_DEBUG} OR ${USE_DEBUG}) OR ($ENV{CI_RUNNING}))
     # Enable verbose output from Makefile builds.
     # This variable is a cache entry initialized (to FALSE) by the project() command.
     # Users may enable the option in their local build tree to get more verbose
     # output from Makefile builds and show each command line as it is launched.
-    set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
+    set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL ON)
     # Default value for POSITION_INDEPENDENT_CODE of targets.
     # This variable is used to initialize the POSITION_INDEPENDENT_CODE property
     # on all the targets. See that target property for additional information.
