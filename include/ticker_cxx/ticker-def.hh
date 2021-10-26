@@ -224,8 +224,8 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
     clz &operator=(clz &&) noexcept = delete
 #endif
 
-#ifndef CLAZZ_NON_MOVEABLE
-#define CLAZZ_NON_MOVEABLE(clz)    \
+#ifndef CLAZZ_NON_MOVABLE
+#define CLAZZ_NON_MOVABLE(clz)    \
     clz(clz &&) noexcept = delete; \
     clz &operator=(clz &&) noexcept = delete
 #endif

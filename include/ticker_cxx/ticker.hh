@@ -12,6 +12,15 @@
 #define TICKER_CXX_TICKER_HH
 
 
+#include "ticker-def.hh"
+
+#include "ticker-common.hh"
+#include "ticker-dbg.hh"
+#include "ticker-log.hh"
+#include "ticker-pool.hh"
+
+#include "ticker-chrono.hh"
+
 #include <chrono>
 #include <ctime>
 
@@ -26,16 +35,6 @@
 
 #include <algorithm>
 #include <functional>
-
-#include "ticker-def.hh"
-
-#include "ticker-common.hh"
-#include "ticker-dbg.hh"
-#include "ticker-log.hh"
-#include "ticker-pool.hh"
-
-#include "ticker-chrono.hh"
-
 
 namespace ticker {
 
@@ -903,7 +902,7 @@ namespace ticker {
 
     protected:
         alarmer() {}
-        // CLAZZ_NON_MOVEABLE(alarmer);
+        // CLAZZ_NON_MOVABLE(alarmer);
         void __copy(alarmer const &o) {
             super::__copy(o);
             __COPY(_anchor);
@@ -919,5 +918,55 @@ namespace ticker {
     }; // class alarmer
 
 } // namespace ticker
+
+
+namespace ticker::test {
+
+    inline std::ostream &build_time(std::ostream &os) {
+        std::tm t{};
+        std::istringstream tsi(__TIMESTAMP__);
+        // tsi.imbue(std::locale("de_DE.utf-8"));
+        tsi >> std::get_time(&t, "%a %b %d %H:%M:%S %Y");
+        // std::get_time(&t, "%Y-%m-%dT%H:%M:%S");
+        // std::ostringstream ts;
+        // ts << std::put_time(&t, "%Y-%m-%dT%H:%M:%S");
+        return os << std::put_time(&t, "%FT%T%z");
+    }
+    inline std::string build_time() {
+        std::ostringstream ts;
+        build_time(ts);
+        return ts.str();
+    }
+
+    inline void test_for_macros() {
+        std::cout << '\n';
+
+        std::cout << "TICKER_CXX_ENABLE_ASSERTIONS               : " << TICKER_CXX_ENABLE_ASSERTIONS << '\n';
+        std::cout << "TICKER_CXX_ENABLE_PRECONDITION_CHECKS      : " << TICKER_CXX_ENABLE_PRECONDITION_CHECKS << '\n';
+        std::cout << "TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL : " << TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL << '\n';
+        std::cout << "TICKER_CXX_ENABLE_VERBOSE_LOG              : " << TICKER_CXX_ENABLE_VERBOSE_LOG << '\n';
+        std::cout << "TICKER_CXX_TEST_THREAD_POOL_DBGOUT         : " << TICKER_CXX_TEST_THREAD_POOL_DBGOUT << '\n';
+        std::cout << "TICKER_CXX_UNIT_TEST                       : " << TICKER_CXX_UNIT_TEST << '\n';
+
+        std::cout << '\n'
+                  << TICKER_CXX_PROJECT_NAME << " v" << TICKER_CXX_VERSION_STRING << '\n'
+                  << TICKER_CXX_ARCHIVE_NAME << ": " << TICKER_CXX_DESCRIPTION << '\n'
+                  << "         version: " << TICKER_CXX_VERSION_STR << '\n'
+                  << "          branch: " << TICKER_CXX_GIT_BRANCH << '\n'
+                  << "             tag: " << TICKER_CXX_GIT_TAG << " (" << TICKER_CXX_GIT_TAG_LONG << ")" << '\n'
+                  << "            hash: " << TICKER_CXX_GIT_REV << " (" << TICKER_CXX_GIT_COMMIT_HASH << ")" << '\n'
+                  << "             cpu: " << TICKER_CXX_CPU << '\n'
+                  << "            arch: " << TICKER_CXX_CPU_ARCH << '\n'
+                  << "       arch-name: " << TICKER_CXX_CPU_ARCH_NAME << '\n'
+                  << "      build-name: " << TICKER_CXX_BUILD_NAME << '\n'
+                  << "      build-time: " << build_time() << '\n'
+                  << "       timestamp: " << chrono::format_time_point() << '\n'
+                  << '\n';
+
+        dbg_debug("debug mode log enabled.");
+        dbg_verbose_debug("verbose log (trace mode) enabled.");
+    }
+
+} // namespace ticker::test
 
 #endif //TICKER_CXX_TICKER_HH
