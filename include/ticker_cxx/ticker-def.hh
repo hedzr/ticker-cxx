@@ -225,7 +225,7 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #endif
 
 #ifndef CLAZZ_NON_MOVABLE
-#define CLAZZ_NON_MOVABLE(clz)    \
+#define CLAZZ_NON_MOVABLE(clz)     \
     clz(clz &&) noexcept = delete; \
     clz &operator=(clz &&) noexcept = delete
 #endif
@@ -636,11 +636,13 @@ namespace std {
 #define OS_APPLE 0
 #endif
 
-#ifdef OS_WIN
+#if !defined(OS_WIN)
+#define OS_WIN 0
+#elif ~OS_WIN + 1
 #undef OS_WIN
 #define OS_WIN 1
 #else
-#define OS_WIN 0
+// FALSE:      OS_WIN is defined and is zero
 #endif
 
 #if defined(_POSIX_VERSION)

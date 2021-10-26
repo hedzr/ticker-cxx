@@ -91,7 +91,16 @@ endfunction()
 
 
 define_test_program(basic basic.cc)
-define_test_program(ticker ticker.cc)
+
+
+define_test_program(type_name type_name.cc)
+define_test_program(thread_basics thread_basics.cc)
+define_test_program(periodical_job periodical_job.cc)
+
+
+define_test_program(ztk-timer ztk-timer.cc)
+define_test_program(ztk-ticker ztk-ticker.cc)
+define_test_program(ztk-alarm ztk-alarm.cc)
 
 
 #

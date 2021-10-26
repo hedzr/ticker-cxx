@@ -13,6 +13,6 @@
 
 #pragma once
 
-#include "ticker_cxx/ticker.hh"
+#include "ticker_cxx/ticker-core.hh"
 
 #endif //TICKER_CXX_TICKER_CXX_HH

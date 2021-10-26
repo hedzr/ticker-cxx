@@ -57,16 +57,21 @@ set(TICKER_CXX_header_files
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx.hh
         ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-version.hh
         ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-config.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker.hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-core.hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-anchors.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-assert.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-chrono.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-common.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-config.hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-core.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-dbg.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-def.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-if.hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-jobs.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-log.hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-periodical-job.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-pool.hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-timer-job.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-x-class.hh
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-x-test.hh
         )
