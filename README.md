@@ -174,5 +174,5 @@ Thanks to [JetBrains](https://www.jetbrains.com/?from=ticker-cxx) for donating p
 
 ## LICENSE
 
-MIT
+Apache 2.0
 
