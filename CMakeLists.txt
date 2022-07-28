@@ -9,7 +9,7 @@ set(CMAKE_MODULE_PATH
         ${CMAKE_MODULE_PATH})
 #### INCLUDES ##################################################
 include(prerequisites)
-include(dummy-project)
+#include(dummy-project)
 
 
 set(PROJECT_MACRO_NAME ticker_cxx)
@@ -27,33 +27,31 @@ set(PROJECT_MACRO_PREFIX "TICKER_CXX")
 
 #### OPTIONS ##################################################
 
-option(OK "PL-OK" ON)
+option(OK "PLL-OK" ON)
 
-#option(TICKER_CXX_BUILD_TESTS_EXAMPLES "Build Test Examples OK" OFF)
-#option(TICKER_CXX_BUILD_DOCS "Build Docs-OK" OFF)
+#option(${PROJECT_MACRO_PREFIX}_BUILD_TESTS_EXAMPLES "Build Test Examples OK" OFF)
+#option(${PROJECT_MACRO_PREFIX}_BUILD_DOCS "Build Docs-OK" OFF)
 
 # the following options are just used for executables
-option(TICKER_CXX_ENABLE_ASSERTIONS "Enable Assertions-OK" ON)
-option(TICKER_CXX_ENABLE_PRECONDITION_CHECKS "Enable Precondition Checks-OK" ON)
-option(TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL "Enable ready signal actions in thread_pool template class" ON)
-option(TICKER_CXX_ENABLE_VERBOSE_LOG "Enable `dbg_verbose_debug` macro definition (TRACE MODE)" OFF)
-option(TICKER_CXX_TEST_THREAD_POOL_DBGOUT "Enable `pool_debug` macro definition" OFF)
-option(TICKER_CXX_UNIT_TEST "Enable the extra unit-tests" OFF)
+option(${PROJECT_MACRO_PREFIX}_ENABLE_ASSERTIONS "Enable Assertions-OK" ON)
+option(${PROJECT_MACRO_PREFIX}_ENABLE_PRECONDITION_CHECKS "Enable Precondition Checks-OK" ON)
+option(${PROJECT_MACRO_PREFIX}_ENABLE_THREAD_POOL_READY_SIGNAL "Enable ready signal actions in thread_pool template class" ON)
+option(${PROJECT_MACRO_PREFIX}_ENABLE_VERBOSE_LOG "Enable `dbg_verbose_debug` macro definition (TRACE MODE)" OFF)
+option(${PROJECT_MACRO_PREFIX}_TEST_THREAD_POOL_DBGOUT "Enable `pool_debug` macro definition" OFF)
+option(${PROJECT_MACRO_PREFIX}_UNIT_TEST "Enable the extra unit-tests" OFF)
 
 
 #### PROJECTS ##################################################
 
 
-project(ticker_cxx
+project(${PROJECT_MACRO_NAME}
         VERSION ${VERSION}
-        DESCRIPTION "ticker-cxx - a timer/ticker/cron/scheduler library."
+        DESCRIPTION "${PROJECT_MACRO_MID_NAME} - a timer/ticker/cron/scheduler library."
         LANGUAGES CXX)
-set(PROJECT_MACRO_NAME ticker_cxx)
-set(PROJECT_MACRO_PREFIX TICKER_CXX)
-set(TICKER_CXX_detail_header_files
+set(${PROJECT_MACRO_PREFIX}_detail_header_files
         #${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/detail/ticker-if.hh
         )
-set(TICKER_CXX_header_files
+set(${PROJECT_MACRO_PREFIX}_header_files
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx.hh
         ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-version.hh
         ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-config.hh
@@ -78,27 +76,9 @@ set(TICKER_CXX_header_files
 define_installable_cxx_library_project(${PROJECT_NAME} ${PROJECT_MACRO_PREFIX})
 
 
-#project(undo_cxx)
-#set(PROJECT_MACRO_PREFIX UNDO_CXX)
-#set(UNDO_CXX_detail_header_files
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx/detail/undo-if.hh
-#        )
-#set(UNDO_CXX_header_files
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx.hh
-#        ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-version.hh
-#        ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-config.hh
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx/undo.hh
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx/undo-common.hh
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx/undo-def.hh
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx/undo-log.hh
-#        ${CMAKE_CURRENT_SOURCE_DIR}/include/undo_cxx/undo-unmgr.hh
-#        )
-#define_installable_cxx_library_project(${PROJECT_NAME} ${PROJECT_MACRO_PREFIX})
-
-
 ##### TESTS ##################################################
 #
-#if (${TICKER_CXX_BUILD_TESTS_EXAMPLES} OR (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
+#if (${${PROJECT_MACRO_PREFIX}_BUILD_TESTS_EXAMPLES} OR (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
 #    enable_testing()
 #    add_subdirectory(examples/)
 #    add_subdirectory(tests/)

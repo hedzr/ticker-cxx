@@ -1,6 +1,7 @@
 
-message(STATUS "CMAKE_TOOLCHAIN_FILE = ${CMAKE_TOOLCHAIN_FILE}")
-message(STATUS "VCPKG_TARGET_TRIPLET = $ENV{VCPKG_TARGET_TRIPLET}")
+#message("CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}")
+#message(STATUS "CMAKE_TOOLCHAIN_FILE = ${CMAKE_TOOLCHAIN_FILE}")
+#message(STATUS "VCPKG_TARGET_TRIPLET = $ENV{VCPKG_TARGET_TRIPLET}")     # =x64-windows, ...
 
 
 #set (A "d")
@@ -66,8 +67,8 @@ else ()
         set(CMAKE_RELWITHDEBINFO_POSTFIX "" CACHE STRING "" FORCE)
     endif ()
 endif ()
-message(STATUS "DEBUG MODE: ${CMAKE_BUILD_TYPE} -> ${CMAKE_BUILD_NAME}, ${CMAKE_DEBUG_POSTFIX} ...")
-message(STATUS "USE_DEBUG_MALLOC = ${USE_DEBUG_MALLOC}, USE_DEBUG = ${USE_DEBUG} ...")
+message(STATUS ">>> DEBUG MODE: ${CMAKE_BUILD_TYPE} -> ${CMAKE_BUILD_NAME}, ${CMAKE_DEBUG_POSTFIX} ...")
+message(STATUS ">>> USE_DEBUG_MALLOC = ${USE_DEBUG_MALLOC}, USE_DEBUG = ${USE_DEBUG} ...")
 mark_as_advanced(CMAKE_BUILD_NAME)
 
 
@@ -88,14 +89,14 @@ option(ENABLE_CCACHE "Use ccache for build" ON)
 if (${ENABLE_CCACHE})
     find_program(CCACHE ccache)
     if (NOT "${CCACHE}" STREQUAL "CCACHE-NOTFOUND") ## if (CCACHE)
-        message(STATUS "ccache found and enabled")
+        message(STATUS ">>> ccache found and enabled")
         set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE})
         set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
     else ()
-        message(WARNING "use_ccache enabled, but ccache executable not found: ${CCACHE}")
+        message(WARNING ">>> use_ccache enabled, but ccache executable not found: ${CCACHE}")
     endif ()
 else ()
-    message(STATUS "ccache disabled")
+    message(STATUS ">>> ccache disabled")
 endif ()
 
 
@@ -131,14 +132,22 @@ if ((${CMAKE_VERBOSE_DEBUG} OR ${USE_DEBUG}) OR ($ENV{CI_RUNNING}))
     # on all the targets. See that target property for additional information.
     # If set, it’s value is also used by the try_compile() command.
     set(CMAKE_POSITION_INDEPENDENT_CODE CACHE BOOL "ON")
-    message("CMAKE_VERBOSE_DEBUG ON")
+    message(STATUS ">>> CMAKE_VERBOSE_DEBUG ON")
 endif ()
 
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-
+include(add-policies)
 include(detect-systems)
 include(cxx-macros)
 include(options-def)
+include(version-def)
 include(versions-gen)
+#include(vcpkg-integration)
+include(pkg-mgmt)
+
+include(target-dirs)
+include(utils)
+
+include(dummy-project)
