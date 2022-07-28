@@ -54,7 +54,7 @@ void test_ticker_interval() {
     auto t = ticker::ticker<>::get([] { dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str()); });
     t->interval(200ms)
             .on([&count2] {
-                ticker::pool::cw_setter cws(count2);
+                ticker::pool::cw_setter cws(count2); // set conditional_wait object at destructed time.
                 printf("  - interval [%02d]: %s\n", count2.val(), ticker::chrono::format_time_point().c_str());
             })
             .build();

@@ -98,7 +98,10 @@ namespace ticker {
      * 
      * 
      */
-    template<typename DerivedT = std::nullopt_t, typename Clock = Clock, bool GMT = false, typename ConcreteJob = detail::in_job<Clock, GMT>>
+    template<typename DerivedT = std::nullopt_t,
+             typename Clock = Clock,
+             bool GMT = false,
+             typename ConcreteJob = detail::in_job<Clock, GMT>>
     class timer : public base<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, timer<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type> {
         // public:
         //     class posix_ticker {
@@ -406,7 +409,10 @@ namespace ticker {
      * 
      * @par inspired by [https://github.com/Bosma/Scheduler](https://github.com/Bosma/Scheduler) and <https://github.com/jmettraux/rufus-scheduler>.
      */
-    template<typename DerivedT = std::nullopt_t, typename Clock = Clock, bool GMT = false, typename ConcreteJob = detail::every_job<Clock, GMT>>
+    template<typename DerivedT = std::nullopt_t,
+             typename Clock = Clock,
+             bool GMT = false,
+             typename ConcreteJob = detail::every_job<Clock, GMT>>
     class ticker : public timer<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, ticker<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type, Clock, GMT, ConcreteJob> {
     public:
         ticker(ticker const &o) {

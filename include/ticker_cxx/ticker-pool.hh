@@ -150,6 +150,10 @@ namespace ticker::pool {
         virtual void _release() {}
     };
 
+    /**
+     * @brief cw_setter is a shortcut to conditional_wait.set() with RAII supported.
+     * @tparam CW a conditional_wait object
+     */
     template<typename CW>
     class cw_setter {
     public:

@@ -31,7 +31,8 @@ void test_alarm() {
             .on([&count2] {
                 auto now = ticker::chrono::now();
                 ticker::pool::cw_setter cws(count2);
-                printf("  - alarm [%02d]: %s\n", count2.val(), ticker::chrono::format_time_point(now).c_str());
+                printf("  - alarm [%02d]: %s\n", count2.val(), 
+                       ticker::chrono::format_time_point(now).c_str());
             })
             .build();
     printf("end of %s\n", __FUNCTION_NAME__);
