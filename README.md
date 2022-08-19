@@ -4,7 +4,7 @@
 ![CMake Build Matrix](https://github.com/hedzr/ticker-cxx/workflows/CMake%20Build%20Matrix/badge.svg?event=release) 
 --> [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/hedzr/ticker-cxx.svg?label=release)](https://github.com/hedzr/ticker-cxx/releases)
 
-`ticker-cxx` C++17 library provides the time ticker function, it schedule to trigger your customized tasks.
+`ticker-cxx` is a C++17 library to provide a set of timing ticker functions, it schedules to trigger your customized tasks.
 
 **WIP**
 
