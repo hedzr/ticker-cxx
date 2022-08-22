@@ -181,10 +181,18 @@ macro(define_installable_cxx_library_project PROJ_NAME PROJ_PREFIX)
             # /D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
         )
     else()
-        target_compile_options(${PROJ_NAME} INTERFACE
+        if(ENABLE_PPPM_WARNINGS)
+            target_compile_options(${PROJ_NAME} INTERFACE
 
-            # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
-        )
+                # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
+            )
+        else()
+            target_compile_options(${PROJ_NAME} INTERFACE
+                -Wno- # pragma-messages
+
+                # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
+            )
+        endif()
     endif()
 
     # Setup package config
