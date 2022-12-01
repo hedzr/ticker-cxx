@@ -56,9 +56,15 @@ function(define_test_program name)
                 -pedantic -Wall -Wextra -Wshadow -Werror -pthread
                 #-D${PROJECT_MACRO_PREFIX}_UNIT_TEST=${_${PROJECT_MACRO_NAME}_unit_test}
                 )
-        if (DEBUG)
+        if (USE_DEBUG)
             target_compile_options(${PROJECT_NAME}-${name} PRIVATE
-                    -fsanitize=address -fno-omit-frame-pointer
+                    -fsanitize=address -fno-omit-frame-pointer -g -O1
+                    # -fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1
+                    # -fsanitize=leak -fno-omit-frame-pointer -g -O1
+                    # -fsanitize=thread -g -O1
+                    # -fsanitize=memory -fno-optimize-sibling-calls -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -g -O2
+                    # -fsanitize=undefined
+
                     # address(AddressSanitizer), leak(LeakSanitizer), thread(ThreadSanitizer), undefined(UndefinedBehaviorSanitizer), memory(MemorySanitizer) 
                     # [additional_options]: -fno-omit-frame-pointer, fsanitize-recover/fno-sanitize-recover, -fsanitize-blacklist, etc.
                     # [-g] [-OX]
