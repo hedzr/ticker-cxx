@@ -10,13 +10,19 @@
 
 ## Features
 
-We provide these template classes for scheduling your works mainly:
+These template classes are provided for scheduling your works mainly:
 
 - timer
 - ticker
 - alarm
 
 The typical time and period representations, such as `1us`, from `std::literals::chrono_literals`, are valid for the timer setting.
+
+The recommended shortest gap is `1us`.
+
+To support `ns`/`nanoseconds` level as interval gap, you should tune and optimized the whole userland codes and this library. Or, use hardware clock device and driver.
+
+This library is originally designed for the most of scenes of GTD, and long-period backends.
 
 
 ## History
