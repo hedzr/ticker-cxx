@@ -52,8 +52,8 @@ jobs:
             sudo add-apt-repository ppa:ubuntu-toolchain-r/test
             sudo apt update
             sudo apt install -y gcc-10 g++-10
-            sudo update-alternatives --list gcc
-            sudo update-alternatives --list g++
+            sudo update-alternatives --list gcc || true
+            sudo update-alternatives --list g++ || true
             sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 90 --slave /usr/bin/g++ g++ /usr/bin/g++-7
             sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 70 --slave /usr/bin/g++ g++ /usr/bin/g++-9
             sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 60 --slave /usr/bin/g++ g++ /usr/bin/g++-10
