@@ -20,7 +20,7 @@ The typical time and period representations, such as `1us`, from `std::literals:
 
 The recommended shortest gap is `1us`.
 
-To support `ns`/`nanoseconds` level as interval gap, you should tune and optimized the whole userland codes and this library. Or, use hardware clock device and driver.
+To support `ns`/`nanoseconds` level as interval gap, you should tune and optimize the whole userland codes and this library. Or, use hardware clock device and driver.
 
 This library is originally designed for the most of scenes of GTD, and long-period backends.
 
