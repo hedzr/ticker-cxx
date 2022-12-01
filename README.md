@@ -10,9 +10,26 @@
 
 ## Features
 
+We provide these template classes for scheduling your works mainly:
+
+- timer
+- ticker
+- alarm
+
+The typical time and period representations, such as `1us`, from `std::literals::chrono_literals`, are valid for the timer setting.
+
+
+## History
+
+- v0.2.3: little improvements for building compatibilities
+- v0.2.1: first public release
+- ? : the plan started
+
+## Guide
+
 ### Uses timer
 
-the one-time timer after a duration (for instance 1us):
+the one-time timer after a duration (for instance `1us`):
 
 ```cpp
 void test_timer() {
