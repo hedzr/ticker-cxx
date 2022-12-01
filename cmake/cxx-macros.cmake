@@ -10,59 +10,59 @@ endmacro()
 macro(debug_print_list_value listName)
     message(STATUS "- List of ${listName} -------------")
 
-    foreach(lib ${${listName}})
+    foreach (lib ${${listName}})
         message("                         ${lib}")
-    endforeach(lib)
+    endforeach (lib)
 endmacro()
 
 macro(ensure_options_values PROJ_NAME PROJ_PREFIX)
-    if(NOT DEFINED _${PROJ_NAME}_enable_assertions)
-        if(DEFINED ${PROJ_PREFIX}_ENABLE_ASSERTIONS)
+    if (NOT DEFINED _${PROJ_NAME}_enable_assertions)
+        if (DEFINED ${PROJ_PREFIX}_ENABLE_ASSERTIONS)
             SET(_${PROJ_NAME}_enable_assertions 1)
-        else()
+        else ()
             SET(_${PROJ_NAME}_enable_assertions 0)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
-    if(NOT DEFINED _${PROJ_NAME}_enable_precondition_checks)
-        if(DEFINED ${PROJ_PREFIX}_ENABLE_PRECONDITION_CHECKS)
+    if (NOT DEFINED _${PROJ_NAME}_enable_precondition_checks)
+        if (DEFINED ${PROJ_PREFIX}_ENABLE_PRECONDITION_CHECKS)
             SET(_${PROJ_NAME}_enable_precondition_checks 1)
-        else()
+        else ()
             SET(_${PROJ_NAME}_enable_precondition_checks 0)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
-    if(NOT DEFINED _${PROJ_NAME}_enable_thread_pool_ready_signal)
-        if(DEFINED ${PROJ_PREFIX}_ENABLE_THREAD_POOL_READY_SIGNAL)
+    if (NOT DEFINED _${PROJ_NAME}_enable_thread_pool_ready_signal)
+        if (DEFINED ${PROJ_PREFIX}_ENABLE_THREAD_POOL_READY_SIGNAL)
             SET(_${PROJ_NAME}_enable_thread_pool_ready_signal 1)
-        else()
+        else ()
             SET(_${PROJ_NAME}_enable_thread_pool_ready_signal 0)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
-    if(NOT DEFINED _${PROJ_NAME}_enable_verbose_log)
-        if(DEFINED ${PROJ_PREFIX}_ENABLE_VERBOSE_LOG)
+    if (NOT DEFINED _${PROJ_NAME}_enable_verbose_log)
+        if (DEFINED ${PROJ_PREFIX}_ENABLE_VERBOSE_LOG)
             SET(_${PROJ_NAME}_enable_verbose_log 1)
-        else()
+        else ()
             SET(_${PROJ_NAME}_enable_verbose_log 0)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
-    if(NOT DEFINED _${PROJ_NAME}_enable_thread_pool_dbgout)
-        if((DEFINED ${PROJ_PREFIX}_TEST_THREAD_POOL_DBGOUT) OR ${USE_DEBUG})
+    if (NOT DEFINED _${PROJ_NAME}_enable_thread_pool_dbgout)
+        if ((DEFINED ${PROJ_PREFIX}_TEST_THREAD_POOL_DBGOUT) OR ${USE_DEBUG})
             SET(_${PROJ_NAME}_enable_thread_pool_dbgout 1)
-        else()
+        else ()
             SET(_${PROJ_NAME}_enable_thread_pool_dbgout 0)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
-    if(NOT DEFINED _${PROJ_NAME}_unit_test)
-        if((DEFINED ${PROJ_PREFIX}_UNIT_TEST) OR ${USE_DEBUG})
+    if (NOT DEFINED _${PROJ_NAME}_unit_test)
+        if ((DEFINED ${PROJ_PREFIX}_UNIT_TEST) OR ${USE_DEBUG})
             SET(_${PROJ_NAME}_unit_test 1)
-        else()
+        else ()
             SET(_${PROJ_NAME}_unit_test 0)
-        endif()
-    endif()
+        endif ()
+    endif ()
 
     message(STATUS "Config (CMAKE_BUILD_NAME): ${CMAKE_BUILD_NAME}")
 endmacro()
@@ -70,9 +70,9 @@ endmacro()
 function(prepend var prefix)
     set(listVar "")
 
-    foreach(f ${ARGN})
+    foreach (f ${ARGN})
         list(APPEND listVar "${prefix}/${f}")
-    endforeach(f)
+    endforeach (f)
 
     set(${var} "${listVar}" PARENT_SCOPE)
 endfunction(prepend)
@@ -96,12 +96,12 @@ macro(define_cxx_executable_project PROJ_NAME PROJ_PREFIX)
     # set(CMAKE_AUTOUIC ON)    # Qt uic, User-Interface compiler
     ensure_options_values(${PROJ_NAME} ${PROJ_PREFIX})
     gen_versions(${PROJ_NAME} ${PROJ_PREFIX}
-        ${PROJ_NAME}-version.hh
-        ${PROJ_NAME}-config.hh
-        ${PROJ_NAME}-${PROJECT_VERSION}
-        ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/version.h.in
-        ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/config-base.h.in
-    )
+            ${PROJ_NAME}-version.hh
+            ${PROJ_NAME}-config.hh
+            ${PROJ_NAME}-${PROJECT_VERSION}
+            ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/version.h.in
+            ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/config-base.h.in
+            )
 
     add_executable(${PROJ_NAME} ${_source_files})
     target_sources(${PROJ_NAME} PRIVATE "$<BUILD_INTERFACE:${_detail_header_files};${_header_files}>")
@@ -110,21 +110,21 @@ macro(define_cxx_executable_project PROJ_NAME PROJ_PREFIX)
 
     set(_defs ${${PROJ_PREFIX}_cxx_defs})
 
-    if(MSVC)
+    if (MSVC)
         list(TRANSFORM _defs PREPEND /D)
         target_compile_options(${PROJ_NAME} INTERFACE /wd4800 # truncation to bool warning
-            ${_defs}
+                ${_defs}
 
-            # /D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
-        )
-    else()
+                # /D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
+                )
+    else ()
         list(TRANSFORM _defs PREPEND -D)
         target_compile_options(${PROJ_NAME} INTERFACE
-            ${_defs}
+                ${_defs}
 
-            # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
-        )
-    endif()
+                # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
+                )
+    endif ()
 endmacro()
 
 macro(define_installable_cxx_library_project PROJ_NAME PROJ_PREFIX)
@@ -144,12 +144,12 @@ macro(define_installable_cxx_library_project PROJ_NAME PROJ_PREFIX)
     # set(CMAKE_AUTOUIC ON)    # Qt uic, User-Interface compiler
     ensure_options_values(${PROJ_NAME} ${PROJ_PREFIX})
     gen_versions(${PROJ_NAME} ${PROJ_PREFIX}
-        ${PROJ_NAME}-version.hh
-        ${PROJ_NAME}-config.hh
-        ${PROJ_NAME}-${PROJECT_VERSION}
-        ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/version.h.in
-        ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/config-base.h.in
-    )
+            ${PROJ_NAME}-version.hh
+            ${PROJ_NAME}-config.hh
+            ${PROJ_NAME}-${PROJECT_VERSION}
+            ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/version.h.in
+            ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/config-base.h.in
+            )
 
     add_library(${PROJ_NAME} INTERFACE)
     target_sources(${PROJ_NAME} INTERFACE "$<BUILD_INTERFACE:${_detail_header_files};${_header_files}>")
@@ -175,25 +175,30 @@ macro(define_installable_cxx_library_project PROJ_NAME PROJ_PREFIX)
     # #UNIT_TESTING=0
     # )
     # target_link_libraries(fsm_cxx INTERFACE debug_assert)
-    if(MSVC)
+    if (MSVC)
         target_compile_options(${PROJ_NAME} INTERFACE /wd4800 # truncation to bool warning
 
-            # /D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
-        )
-    else()
-        if(ENABLE_PPPM_WARNINGS)
+                # /D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
+                )
+    else ()
+        if (ENABLE_PPPM_WARNINGS)
             target_compile_options(${PROJ_NAME} INTERFACE
 
-                # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
-            )
-        else()
-            target_compile_options(${PROJ_NAME} INTERFACE
-                -Wno- # pragma-messages
-
-                # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
-            )
-        endif()
-    endif()
+                    # -D${PROJ_PREFIX}_UNIT_TEST=${_${PROJ_NAME}_unit_test}
+                    )
+        else ()
+            if (GCC)
+                target_compile_options(${PROJ_NAME} INTERFACE
+                        -Wno-unknown-pragmas  # disable #pragma message() warnings in gcc
+                        -ftrack-macro-expansion=0 and -fno-diagnostics-show-caret # https://stackoverflow.com/questions/30255294/how-to-hide-extra-output-from-pragma-message
+                        )
+            else ()
+                target_compile_options(${PROJ_NAME} INTERFACE
+                        -Wno-unknown-pragmas  # disable #pragma message() warnings in gcc
+                        )
+            endif ()
+        endif ()
+    endif ()
 
     # Setup package config
     include(CMakePackageConfigHelpers)
@@ -206,9 +211,9 @@ set(${PROJ_NAME}_LIBRARIES ${PROJ_NAME})
 ")
 
     write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config-version.cmake
-        VERSION ${VERSION}
-        COMPATIBILITY SameMajorVersion
+            ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config-version.cmake
+            VERSION ${VERSION}
+            COMPATIBILITY SameMajorVersion
     )
 
     # Install target and header
@@ -217,52 +222,52 @@ set(${PROJ_NAME}_LIBRARIES ${PROJ_NAME})
     install(FILES include/${PROJ_NAME}.hh DESTINATION include)
 
     install(FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config-version.cmake
-        DESTINATION
-        ${CONFIG_PACKAGE_INSTALL_DIR})
+            ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config-version.cmake
+            DESTINATION
+            ${CONFIG_PACKAGE_INSTALL_DIR})
 
     # Only export target when using imported targets
-    if(${${PROJ_PREFIX}_HAS_IMPORTED_TARGETS})
+    if (${${PROJ_PREFIX}_HAS_IMPORTED_TARGETS})
         install(TARGETS ${PROJ_NAME}
-            EXPORT ${PROJ_NAME}-targets
-            DESTINATION lib)
+                EXPORT ${PROJ_NAME}-targets
+                DESTINATION lib)
 
         install(EXPORT ${PROJ_NAME}-targets
-            DESTINATION
-            ${CONFIG_PACKAGE_INSTALL_DIR}
-        )
-    endif()
+                DESTINATION
+                ${CONFIG_PACKAGE_INSTALL_DIR}
+                )
+    endif ()
 
     # other subdirectories
     # only add if not inside add_subdirectory()
     option(${PROJ_PREFIX}_BUILD_TESTS_EXAMPLES "build test and example" OFF)
 
-    if(${${PROJ_PREFIX}_BUILD_TESTS_EXAMPLES} OR(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
+    if (${${PROJ_PREFIX}_BUILD_TESTS_EXAMPLES} OR (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
         enable_testing()
         add_subdirectory(examples/)
         add_subdirectory(tests/)
-    endif()
+    endif ()
 
     option(${PROJ_PREFIX}_BUILD_DOCS "generate documentation" OFF)
 
-    if(${PROJ_PREFIX}_BUILD_DOCS OR(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
-        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/docs/")
+    if (${PROJ_PREFIX}_BUILD_DOCS OR (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR))
+        if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/docs/")
             find_package(Doxygen)
 
-            if(NOT DOXYGEN_FOUND)
+            if (NOT DOXYGEN_FOUND)
                 set(${PROJ_PREFIX}_BUILD_DOCS OFF)
-            else()
-                if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+            else ()
+                if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
                     set(${PROJ_PREFIX}_BUILD_DOCS ON)
-                endif()
+                endif ()
 
-                if((${USE_DEBUG}) OR($ENV{CI_RUNNING}))
+                if ((${USE_DEBUG}) OR ($ENV{CI_RUNNING}))
                     set(${PROJ_PREFIX}_BUILD_DOCS OFF)
-                endif()
-            endif()
+                endif ()
+            endif ()
 
-            if(${PROJ_PREFIX}_BUILD_DOCS)
+            if (${PROJ_PREFIX}_BUILD_DOCS)
                 message(STATUS "- docs/ including ....")
 
                 # Find all the public headers
@@ -285,15 +290,15 @@ set(${PROJ_NAME}_LIBRARIES ${PROJ_NAME})
 
                 file(MAKE_DIRECTORY ${DOXYGEN_OUTPUT_DIR}) # Doxygen won't create this for us
                 add_custom_command(OUTPUT ${DOXYGEN_INDEX_FILE}
-                    DEPENDS ${MY_PUBLIC_HEADERS}
-                    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
+                        DEPENDS ${MY_PUBLIC_HEADERS}
+                        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
 
-                    # COMMAND
-                    # $<$<CONFIG:Release>:${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}>
-                    # $<$<NOT:$<CONFIG:Release>>:${CMAKE_COMMAND} -E "echo 'Only done in Release builds'">
-                    MAIN_DEPENDENCY ${DOXYFILE_OUT} ${DOXYFILE_IN}
-                    COMMENT "Generating docs ..."
-                    VERBATIM)
+                        # COMMAND
+                        # $<$<CONFIG:Release>:${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}>
+                        # $<$<NOT:$<CONFIG:Release>>:${CMAKE_COMMAND} -E "echo 'Only done in Release builds'">
+                        MAIN_DEPENDENCY ${DOXYFILE_OUT} ${DOXYFILE_IN}
+                        COMMENT "Generating docs ..."
+                        VERBATIM)
 
                 add_custom_target(Doxygen ALL DEPENDS ${DOXYGEN_INDEX_FILE})
 
@@ -302,33 +307,33 @@ set(${PROJ_NAME}_LIBRARIES ${PROJ_NAME})
 
                 attach_doxygen_to(${PROJ_NAME})
                 message(STATUS "- docs/ included ----")
-            endif()
-        else()
+            endif ()
+        else ()
             message(WARNING "docs/ folder not exists but ${PROJ_PREFIX}_BUILD_DOCS is ON.")
-        endif()
-    endif()
+        endif ()
+    endif ()
 endmacro()
 
 macro(attach_doxygen_to target)
-    if(CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
+    if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
         add_dependencies(${target} docs)
-    endif()
+    endif ()
 endmacro()
 
 function(add_cxx_17_to target)
     set_target_properties(${target}
-        PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS OFF # use -std=c++11 rather than -std=gnu++11
-    )
+            PROPERTIES
+            CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED YES
+            CXX_EXTENSIONS OFF # use -std=c++11 rather than -std=gnu++11
+            )
 endfunction()
 
 function(add_cxx_20_to target)
     set_target_properties(${target}
-        PROPERTIES
-        CXX_STANDARD 20
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS OFF # use -std=c++11 rather than -std=gnu++11
-    )
+            PROPERTIES
+            CXX_STANDARD 20
+            CXX_STANDARD_REQUIRED YES
+            CXX_EXTENSIONS OFF # use -std=c++11 rather than -std=gnu++11
+            )
 endfunction()
