@@ -52,7 +52,7 @@ macro(ensure_options_values PROJ_NAME PROJ_PREFIX)
         endif ()
     endif ()
 
-    message(STATUS "Config (CMAKE_BUILD_NAME): ${CMAKE_BUILD_NAME}")
+    # message(STATUS "Config (CMAKE_BUILD_NAME): ${CMAKE_BUILD_NAME}")
 endmacro()
 
 function(prepend var prefix)
@@ -846,7 +846,7 @@ function(define_test_program name)
         set(_macro_name_prefix "${_name_prefix}")
     endif ()
     ensure_options_values(${_proj_name} ${_macro_name_prefix})
-    debug_print_value(_macro_name_prefix)
+    #debug_print_value(_macro_name_prefix)
 
     debug("--------- Test Program ---------> ${_proj_name} (prefix: ${_name_prefix}) | LIBS: ${define_test_program_ARG_LIBRARIES} | SRC: ${_src_list}.")
 
