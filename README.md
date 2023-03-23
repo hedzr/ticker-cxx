@@ -6,7 +6,7 @@
 
 `ticker-cxx` is a C++17 library to provide a set of timing ticker functions, it schedules to trigger your customized tasks.
 
-**WIP**
+**WIP**.
 
 ## Features
 
@@ -24,9 +24,9 @@ To support `ns`/`nanoseconds` level as interval gap, you should tune and optimiz
 
 This library is originally designed for the most of scenes of GTD, and long-period backends.
 
-
 ## History
 
+- v0.2.5: upgrade cmake scripts for better styles, compatibilities, and structures
 - v0.2.3: little improvements for building compatibilities
 - v0.2.1: first public release
 - ? : the plan started
@@ -59,7 +59,6 @@ void test_timer() {
 ```
 
 `at()`, `in()` are the synonyms of `after(...)`.
-
 
 ### Uses ticker
 
@@ -151,29 +150,34 @@ void test_alarm() {
 ninja is optional for faster building.
 
 ```bash
-# configure
-cmake -S . -B build/ -G Ninja
-# build
+# generate the building config
+cmake -B build/
+# build the whole project (with unittest too)
 cmake --build build/
+
+# configure with ninja
+cmake -S . -B build/ -G Ninja
+
+# CTest
+cmake -E chdir build ctest
+
 # install
 cmake --install build/
 # Or:cmake --build build/ --target install
 #
 # Sometimes sudo it:
 #   sudo cmake --build build/ --target install
-# Or manually:
+# Or:
 #   cmake --install build/ --prefix ./install --strip
 #   sudo cp -R ./install/include/* /usr/local/include/
-#   sudo cp -R ./install/lib/cmake/undo_cxx /usr/local/lib/cmake/
+#   sudo cp -R ./install/lib/cmake/fsm_cxx /usr/local/lib/cmake/
 ```
-
 
 ### Other CMake Options
 
 1. `TICKER_CXX_BUILD_TESTS_EXAMPLES`=OFF
 2. `TICKER_CXX_BUILD_DOCS`=OFF
 3. ...
-   
 
 ### CMake Options with C++ Macros
 
@@ -194,8 +198,6 @@ cmake --install build/
 
 Thanks to [JetBrains](https://www.jetbrains.com/?from=ticker-cxx) for donating product licenses to help develop **ticker-cxx** [![jetbrains](https://gist.githubusercontent.com/hedzr/447849cb44138885e75fe46f1e35b4a0/raw/bedfe6923510405ade4c034c5c5085487532dee4/jetbrains-variant-4.svg)](https://www.jetbrains.com/?from=hedzr/ticker-cxx)
 
-
 ## LICENSE
 
 Apache 2.0
-
