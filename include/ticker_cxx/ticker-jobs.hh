@@ -13,7 +13,6 @@
 
 #include "ticker-anchors.hh"
 #include "ticker-timer-job.hh"
-
 #include "ticker-periodical-job.hh"
 
 namespace ticker::detail {

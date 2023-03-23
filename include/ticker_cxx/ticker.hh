@@ -11,6 +11,11 @@
 #ifndef TICKER_CXX_TICKER_HH
 #define TICKER_CXX_TICKER_HH
 
+#include "ticker_cxx-config.hh"
+#include "ticker_cxx-version.hh"
+
+#include "ticker-config.hh"
+
 #include "ticker-def.hh"
 
 #include "ticker-assert.hh"
@@ -24,6 +29,11 @@
 #include "ticker-if.hh"
 #include "ticker-x-class.hh"
 #include "ticker-x-test.hh"
+
+#include "ticker-anchors.hh"
+#include "ticker-periodical-job.hh"
+#include "ticker-timer-job.hh"
+#include "ticker-jobs.hh"
 
 #include "ticker-core.hh"
 
