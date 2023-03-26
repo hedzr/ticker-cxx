@@ -31,9 +31,9 @@
 #include "ticker-x-test.hh"
 
 #include "ticker-anchors.hh"
+#include "ticker-jobs.hh"
 #include "ticker-periodical-job.hh"
 #include "ticker-timer-job.hh"
-#include "ticker-jobs.hh"
 
 #include "ticker-core.hh"
 

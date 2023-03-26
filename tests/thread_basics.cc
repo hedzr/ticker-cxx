@@ -19,31 +19,31 @@
 ticker::debug::X x_global_var;
 
 void foo() {
-    std::cout << x_global_var.c_str() << '\n';
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::cout << x_global_var.c_str() << '\n';
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
 void test_thread_basics() {
-    printf("> %s\n", __FUNCTION_NAME__);
-    {
-        std::thread t;
-        std::cout << "- before starting, joinable: " << std::boolalpha << t.joinable()
-                  << '\n';
+  printf("> %s\n", __FUNCTION_NAME__);
+  {
+    std::thread t;
+    std::cout << "- before starting, joinable: " << std::boolalpha << t.joinable()
+              << '\n';
 
-        t = std::thread(foo);
-        std::cout << "- after starting, joinable: " << t.joinable()
-                  << '\n';
+    t = std::thread(foo);
+    std::cout << "- after starting, joinable: " << t.joinable()
+              << '\n';
 
-        t.join();
-        std::cout << "- after joining, joinable: " << t.joinable()
-                  << '\n';
-    }
-    {
-        unsigned int n = std::thread::hardware_concurrency();
-        std::cout << "- " << n << " concurrent _threads are supported.\n";
-    }
+    t.join();
+    std::cout << "- after joining, joinable: " << t.joinable()
+              << '\n';
+  }
+  {
+    unsigned int n = std::thread::hardware_concurrency();
+    std::cout << "- " << n << " concurrent _threads are supported.\n";
+  }
 }
 
 int main() {
-    TICKER_TEST_FOR(test_thread_basics);
+  TICKER_TEST_FOR(test_thread_basics);
 }

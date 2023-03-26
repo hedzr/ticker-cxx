@@ -32,7 +32,6 @@
 #include <map>
 #include <string>
 
-
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
@@ -42,7 +41,6 @@
 #include <unistd.h>
 #endif
 
-
 #if !defined(DEBUG) && defined(USE_DEBUG) && USE_DEBUG
 #define DEBUG
 #endif
@@ -50,7 +48,6 @@
 #if !defined(_DEBUG) && defined(DEBUG)
 #define _DEBUG DEBUG
 #endif
-
 
 #ifndef _UNUSED_DEFINED
 #define _UNUSED_DEFINED
@@ -78,7 +75,7 @@
  */
 template<typename... Args>
 inline void UNUSED([[maybe_unused]] Args &&...args) {
-    (void) (sizeof...(args));
+  (void) (sizeof...(args));
 }
 
 #elif __GNUC__ || _MSC_VER
@@ -97,14 +94,13 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 
 #define ALL_UNUSED_IMPL_(nargs) UNUSED##nargs
 #define ALL_UNUSED_IMPL(nargs) ALL_UNUSED_IMPL_(nargs)
-#define UNUSED(...)                           \
-    ALL_UNUSED_IMPL(VA_NUM_ARGS(__VA_ARGS__)) \
-    (__VA_ARGS__)
+#define UNUSED(...)                         \
+  ALL_UNUSED_IMPL(VA_NUM_ARGS(__VA_ARGS__)) \
+  (__VA_ARGS__)
 #endif
 
 #endif
 #endif //_UNUSED_DEFINED
-
 
 #ifndef TICKER_ASSERT
 #if defined(TICKER_CXX_ENABLE_ASSERTIONS) && defined(_DEBUG)
@@ -113,7 +109,6 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #define TICKER_ASSERT(...) UNUSED(__VA_ARGS__)
 #endif
 #endif
-
 
 #ifndef DEBUG_ONLY
 #if defined(_DEBUG)
@@ -131,7 +126,6 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #endif
 #endif
 
-
 #ifndef ASSERTIONS_ONLY
 #if defined(TICKER_CXX_ENABLE_ASSERTIONS) && defined(_DEBUG)
 #define ASSERTIONS_ONLY(...) __VA_ARGS__
@@ -147,7 +141,6 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #define NO_ASSERTIONS_ONLY(...) __VA_ARGS__
 #endif
 #endif
-
 
 #ifndef __COPY
 #define __COPY(m) this->m = o.m
@@ -173,12 +166,12 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 
 #ifndef DISABLE_MSVC_WARNINGS
 #if defined(_MSC_VER)
-#define DISABLE_MSVC_WARNINGS(...)   \
-    __pragma(warning(push))          \
-            __pragma(warning(disable \
-                             : __VA_ARGS__)) /*disable _ctlState prefast warning*/
+#define DISABLE_MSVC_WARNINGS(...) \
+  __pragma(warning(push))          \
+      __pragma(warning(disable     \
+                       : __VA_ARGS__)) /*disable _ctlState prefast warning*/
 #define RESTORE_MSVC_WARNINGS \
-    __pragma(warning(pop))
+  __pragma(warning(pop))
 #else
 #define DISABLE_MSVC_WARNINGS(...) /* __VA_ARGS__ */
 #define RESTORE_MSVC_WARNINGS
@@ -190,38 +183,38 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #define DISABLE_WARNINGS __pragma(warning(push, 1))
 #define RESTORE_WARNINGS __pragma(warning(pop))
 #else
-#define DISABLE_WARNINGS           \
-    _Pragma("GCC diagnostic push") \
-            _Pragma("GCC diagnostic ignored \"-Wall\"")
+#define DISABLE_WARNINGS         \
+  _Pragma("GCC diagnostic push") \
+      _Pragma("GCC diagnostic ignored \"-Wall\"")
 #define RESTORE_WARNINGS \
-    _Pragma("GCC diagnostic pop")
+  _Pragma("GCC diagnostic pop")
 #endif
 #endif
 
 #ifndef DISABLE_UNUSED_WARNINGS
 #if defined(_MSC_VER)
 #define DISABLE_UNUSED_WARNINGS \
-    __pragma(warning(push))     \
-            __pragma(warning(disable : 4100 4101 4102))
+  __pragma(warning(push))       \
+      __pragma(warning(disable : 4100 4101 4102))
 #define RESTORE_UNUSED_WARNINGS __pragma(warning(pop))
 #else
-#define DISABLE_UNUSED_WARNINGS                                                             \
-    _Pragma("GCC diagnostic push")                                                          \
-            _Pragma("GCC diagnostic ignored \"-Wunused\"")                                  \
-                    _Pragma("GCC diagnostic ignored \"-Wunused-label\"")                    \
-                            _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")        \
-                                    _Pragma("GCC diagnostic ignored \"-Wunused-variable\"") \
-                                            _Pragma("GCC diagnostic ignored \"-Wunused-value\"")
+#define DISABLE_UNUSED_WARNINGS                                           \
+  _Pragma("GCC diagnostic push")                                          \
+      _Pragma("GCC diagnostic ignored \"-Wunused\"")                      \
+          _Pragma("GCC diagnostic ignored \"-Wunused-label\"")            \
+              _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"")    \
+                  _Pragma("GCC diagnostic ignored \"-Wunused-variable\"") \
+                      _Pragma("GCC diagnostic ignored \"-Wunused-value\"")
 #define RESTORE_UNUSED_WARNINGS \
-    _Pragma("GCC diagnostic pop")
+  _Pragma("GCC diagnostic pop")
 #endif
 #endif
 
 #ifndef DISABLE_ALIGN_WARNINGS // structure was padded due to alignment specifier
 #if defined(_MSC_VER)
 #define DISABLE_ALIGN_WARNINGS \
-    __pragma(warning(push))    \
-            __pragma(warning(disable : 4324))
+  __pragma(warning(push))      \
+      __pragma(warning(disable : 4324))
 #define RESTORE_ALIGN_WARNINGS __pragma(warning(pop))
 #else
 #define DISABLE_ALIGN_WARNINGS
@@ -229,27 +222,23 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #endif
 #endif
 
-
 //
 
-
 #ifndef CLAZZ_NON_COPYABLE
-#define CLAZZ_NON_COPYABLE(clz)           \
-    clz(const clz &) = delete;            \
-    clz(clz &&) noexcept = delete;        \
-    clz &operator=(const clz &) = delete; \
-    clz &operator=(clz &&) noexcept = delete
+#define CLAZZ_NON_COPYABLE(clz)         \
+  clz(const clz &) = delete;            \
+  clz(clz &&) noexcept = delete;        \
+  clz &operator=(const clz &) = delete; \
+  clz &operator=(clz &&) noexcept = delete
 #endif
 
 #ifndef CLAZZ_NON_MOVABLE
-#define CLAZZ_NON_MOVABLE(clz)     \
-    clz(clz &&) noexcept = delete; \
-    clz &operator=(clz &&) noexcept = delete
+#define CLAZZ_NON_MOVABLE(clz)   \
+  clz(clz &&) noexcept = delete; \
+  clz &operator=(clz &&) noexcept = delete
 #endif
 
-
 //
-
 
 #ifndef AWESOME_MAKE_ENUM
 /**
@@ -269,50 +258,48 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
  *  std::cout &lt;&lt; Week::Saturday << '\n';
  * @endcode
  */
-#define AWESOME_MAKE_ENUM(name, ...)                                \
-    enum class name { __VA_ARGS__,                                  \
-                      __COUNT };                                    \
-    inline std::ostream &operator<<(std::ostream &os, name value) { \
-        std::string enumName = #name;                               \
-        std::string str = #__VA_ARGS__;                             \
-        int len = (int) str.length(), val = -1;                     \
-        std::map<int, std::string> maps;                            \
-        std::ostringstream temp;                                    \
-        for (int i = 0; i < len; i++) {                             \
-            if (std::isspace(str[i])) continue;                     \
-            if (str[i] == ',') {                                    \
-                std::string s0 = temp.str();                        \
-                auto ix = s0.find('=');                             \
-                if (ix != std::string::npos) {                      \
-                    auto s2 = s0.substr(ix + 1);                    \
-                    s0 = s0.substr(0, ix);                          \
-                    std::stringstream ss(s2);                       \
-                    ss >> val;                                      \
-                } else                                              \
-                    val++;                                          \
-                maps.emplace(val, s0);                              \
-                temp.str(std::string());                            \
-            } else                                                  \
-                temp << str[i];                                     \
-        }                                                           \
-        std::string s0 = temp.str();                                \
-        auto ix = s0.find('=');                                     \
-        if (ix != std::string::npos) {                              \
-            auto s2 = s0.substr(ix + 1);                            \
-            s0 = s0.substr(0, ix);                                  \
-            std::stringstream ss(s2);                               \
-            ss >> val;                                              \
-        } else                                                      \
-            val++;                                                  \
-        maps.emplace(val, s0);                                      \
-        os << enumName << "::" << maps[(int) value];                \
-        return os;                                                  \
-    }
+#define AWESOME_MAKE_ENUM(name, ...)                              \
+  enum class name { __VA_ARGS__,                                  \
+                    __COUNT };                                    \
+  inline std::ostream &operator<<(std::ostream &os, name value) { \
+    std::string enumName = #name;                                 \
+    std::string str = #__VA_ARGS__;                               \
+    int len = (int) str.length(), val = -1;                       \
+    std::map<int, std::string> maps;                              \
+    std::ostringstream temp;                                      \
+    for (int i = 0; i < len; i++) {                               \
+      if (std::isspace(str[i])) continue;                         \
+      if (str[i] == ',') {                                        \
+        std::string s0 = temp.str();                              \
+        auto ix = s0.find('=');                                   \
+        if (ix != std::string::npos) {                            \
+          auto s2 = s0.substr(ix + 1);                            \
+          s0 = s0.substr(0, ix);                                  \
+          std::stringstream ss(s2);                               \
+          ss >> val;                                              \
+        } else                                                    \
+          val++;                                                  \
+        maps.emplace(val, s0);                                    \
+        temp.str(std::string());                                  \
+      } else                                                      \
+        temp << str[i];                                           \
+    }                                                             \
+    std::string s0 = temp.str();                                  \
+    auto ix = s0.find('=');                                       \
+    if (ix != std::string::npos) {                                \
+      auto s2 = s0.substr(ix + 1);                                \
+      s0 = s0.substr(0, ix);                                      \
+      std::stringstream ss(s2);                                   \
+      ss >> val;                                                  \
+    } else                                                        \
+      val++;                                                      \
+    maps.emplace(val, s0);                                        \
+    os << enumName << "::" << maps[(int) value];                  \
+    return os;                                                    \
+  }
 #endif
 
-
 //
-
 
 #ifndef __named
 /**
@@ -348,12 +335,11 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
  * @endcode
  */
 #define __named(blockname) \
-    goto blockname;        \
-    blockname##_skip : if (0) blockname:
+  goto blockname;          \
+  blockname##_skip : if (0) blockname:
 
 #define __break(blockname) goto blockname##_skip
 #endif
-
 
 #if defined(__has_builtin)
 #define HAS_BUILTIN(...) __has_builtin(__VA_ARGS__)
@@ -444,9 +430,7 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 #define NOEXCEPT noexcept
 #endif
 
-
 //
-
 
 // #ifndef __has_feature
 // #define __has_feature(x) 0 // Compatibility with non-clang compilers.
@@ -488,10 +472,9 @@ inline void UNUSED([[maybe_unused]] Args &&...args) {
 //
 template<typename T, size_t N>
 [[maybe_unused]] inline size_t countof(T (&arr)[N]) {
-    UNUSED(arr);
-    return std::extent<T[N]>::value;
+  UNUSED(arr);
+  return std::extent<T[N]>::value;
 }
-
 
 //
 
@@ -499,7 +482,7 @@ template<typename T, size_t N>
 #define HZ_HASH_COMBINE 1
 
 namespace std {
-    /**
+  /**
      * @brief combine any hash values in a best way
      * @see boost::hash_combine
      * @tparam T 
@@ -513,26 +496,24 @@ namespace std {
      *     std::hash_combine(code, "from", "here");
      * @endcode
      */
-    template<typename T, typename... Rest>
-    inline void hash_combine(std::size_t &seed, T const &t, Rest &&...rest) {
-        std::hash<T> hasher;
-        seed ^= 0x9e3779b9 + (seed << 6) + (seed >> 2) + hasher(t);
-        int i[] = {0, (hash_combine(seed, std::forward<Rest>(rest)), 0)...};
-        (void) (i);
-    }
+  template<typename T, typename... Rest>
+  inline void hash_combine(std::size_t &seed, T const &t, Rest &&...rest) {
+    std::hash<T> hasher;
+    seed ^= 0x9e3779b9 + (seed << 6) + (seed >> 2) + hasher(t);
+    int i[] = {0, (hash_combine(seed, std::forward<Rest>(rest)), 0)...};
+    (void) (i);
+  }
 
-    template<typename T>
-    inline void hash_combine(std::size_t &seed, T const &v) {
-        std::hash<T> hasher;
-        seed ^= 0x9e3779b9 + (seed << 6) + (seed >> 2) + hasher(v);
-    }
+  template<typename T>
+  inline void hash_combine(std::size_t &seed, T const &v) {
+    std::hash<T> hasher;
+    seed ^= 0x9e3779b9 + (seed << 6) + (seed >> 2) + hasher(v);
+  }
 } // namespace std
 
 #endif
 
-
 //
-
 
 // PORTABILITY MACROS --------------------------------
 
@@ -802,7 +783,6 @@ namespace ticker { namespace cross {
 
 //
 
-
 template<typename T>
 struct always_false : std::false_type {};
 
@@ -812,33 +792,33 @@ template<typename T>
 namespace ticker { namespace cross {
     template<typename T>
     constexpr T constexpr_max(T a) {
-        return a;
+      return a;
     }
     template<typename T, typename... Ts>
     constexpr T constexpr_max(T a, T b, Ts... ts) {
-        return b < a ? constexpr_max(a, ts...) : constexpr_max(b, ts...);
+      return b < a ? constexpr_max(a, ts...) : constexpr_max(b, ts...);
     }
     namespace detail {
-        template<typename T>
-        constexpr T constexpr_log2_(T a, T e) {
-            return e == T(1) ? a : constexpr_log2_(a + T(1), e / T(2));
-        }
-        template<typename T>
-        constexpr T constexpr_log2_ceil_(T l2, T t) {
-            return l2 + T(T(1) << l2 < t ? 1 : 0);
-        }
-        template<typename T>
-        constexpr T constexpr_square_(T t) {
-            return t * t;
-        }
+      template<typename T>
+      constexpr T constexpr_log2_(T a, T e) {
+        return e == T(1) ? a : constexpr_log2_(a + T(1), e / T(2));
+      }
+      template<typename T>
+      constexpr T constexpr_log2_ceil_(T l2, T t) {
+        return l2 + T(T(1) << l2 < t ? 1 : 0);
+      }
+      template<typename T>
+      constexpr T constexpr_square_(T t) {
+        return t * t;
+      }
     } // namespace detail
     template<typename T>
     constexpr T constexpr_log2(T t) {
-        return detail::constexpr_log2_(T(0), t);
+      return detail::constexpr_log2_(T(0), t);
     }
     template<typename T>
     constexpr T constexpr_log2_ceil(T t) {
-        return detail::constexpr_log2_ceil_(constexpr_log2(t), t);
+      return detail::constexpr_log2_ceil_(constexpr_log2(t), t);
     }
 }} // namespace ticker::cross
 
@@ -850,7 +830,6 @@ typedef const char *const_chars;
 #define _STRING_ARRAY_DEFINED
 typedef std::vector<std::string> string_array;
 #endif
-
 
 #ifndef _VECTOR_TO_STRING_HELPERS_DEFINED
 #define _VECTOR_TO_STRING_HELPERS_DEFINED
@@ -870,97 +849,73 @@ typedef std::vector<std::string> string_array;
 
 #if OS_WIN
 namespace ticker::traits {
-    template<typename T, typename = void>
-    struct is_iterable : std::false_type {};
+  template<typename T, typename = void>
+  struct is_iterable : std::false_type {};
 
-    template<typename T>
-    struct is_iterable<T, std::void_t<decltype(std::declval<T>().begin()),
-                                      decltype(std::declval<T>().end())>>
-        : std::true_type {};
+  template<typename T>
+  struct is_iterable<T, std::void_t<decltype(std::declval<T>().begin()), decltype(std::declval<T>().end())>>
+      : std::true_type {};
 } // namespace ticker::traits
 namespace detail {
-    template<class Container,
-             std::enable_if_t<
-                     ticker::traits::is_iterable<Container>::value &&
-                             !std::is_same<Container, std::string>::value &&
-                             !std::is_same<Container, std::string_view>::value &&
-                             !std::is_same<Container, std::wstring_view>::value &&
-                             !std::is_same<Container, std::u16string_view>::value &&
-                             !std::is_same<Container, std::u32string_view>::value &&
-                             !std::is_same<Container, std::filesystem::path>::value,
-                     int> = 0>
-    inline std::string vector_to_string(Container const &vec) {
-        std::ostringstream os;
-        os << '[';
-        int ix = 0;
-        for (auto const &v : vec) {
-            if (ix++ > 0) os << ',';
-            os << v;
-        }
-        os << ']';
-        return os.str();
+  template<class Container,
+           std::enable_if_t<
+               ticker::traits::is_iterable<Container>::value && !std::is_same<Container, std::string>::value && !std::is_same<Container, std::string_view>::value && !std::is_same<Container, std::wstring_view>::value && !std::is_same<Container, std::u16string_view>::value && !std::is_same<Container, std::u32string_view>::value && !std::is_same<Container, std::filesystem::path>::value,
+               int> = 0>
+  inline std::string vector_to_string(Container const &vec) {
+    std::ostringstream os;
+    os << '[';
+    int ix = 0;
+    for (auto const &v : vec) {
+      if (ix++ > 0) os << ',';
+      os << v;
     }
+    os << ']';
+    return os.str();
+  }
 } // namespace detail
 template<class Container,
          std::enable_if_t<
-                 ticker::traits::is_iterable<Container>::value &&
-                         !std::is_same<Container, std::string>::value &&
-                         !std::is_same<Container, std::string_view>::value &&
-                         !std::is_same<Container, std::wstring_view>::value &&
-                         !std::is_same<Container, std::u16string_view>::value &&
-                         !std::is_same<Container, std::u32string_view>::value &&
-                         !std::is_same<Container, std::filesystem::path>::value,
-                 int> = 0>
+             ticker::traits::is_iterable<Container>::value && !std::is_same<Container, std::string>::value && !std::is_same<Container, std::string_view>::value && !std::is_same<Container, std::wstring_view>::value && !std::is_same<Container, std::u16string_view>::value && !std::is_same<Container, std::u32string_view>::value && !std::is_same<Container, std::filesystem::path>::value,
+             int> = 0>
 inline std::ostream &operator<<(std::ostream &os, Container const &o) {
-    os << detail::vector_to_string(o);
-    return os;
+  os << detail::vector_to_string(o);
+  return os;
 }
 #else
 namespace ticker::traits {
-    template<typename T, typename = void>
-    struct is_iterable : std::false_type {};
+  template<typename T, typename = void>
+  struct is_iterable : std::false_type {};
 
-    template<typename T>
-    struct is_iterable<T, std::void_t<decltype(std::begin(std::declval<T>())),
-                                      decltype(std::end(std::declval<T>()))>> : std::true_type {};
+  template<typename T>
+  struct is_iterable<T, std::void_t<decltype(std::begin(std::declval<T>())), decltype(std::end(std::declval<T>()))>> : std::true_type {};
 
-    template<typename T>
-    constexpr bool is_iterable_v = is_iterable<T>::value;
+  template<typename T>
+  constexpr bool is_iterable_v = is_iterable<T>::value;
 } // namespace ticker::traits
 namespace detail {
-    template<class TX,
-             template<typename, typename...> class Container = std::vector,
-             std::enable_if_t<ticker::traits::is_iterable<Container<TX>>::value &&
-                                      !std::is_same<std::decay_t<Container<TX>>, std::string_view>::value &&
-                                      !std::is_same<std::decay_t<Container<TX>>, std::wstring_view>::value &&
-                                      !std::is_same<std::decay_t<Container<TX>>, std::u16string_view>::value &&
-                                      !std::is_same<std::decay_t<Container<TX>>, std::u32string_view>::value &&
-                                      !std::is_same<std::decay_t<Container<TX>>, std::string>::value,
-                              int> = 0>
-    inline std::string vector_to_string(Container<TX> const &vec) {
-        std::ostringstream os;
-        os << '[';
-        int ix = 0;
-        for (auto const &v : vec) {
-            if (ix++ > 0) os << ',';
-            os << v;
-        }
-        os << ']';
-        return os.str();
+  template<class TX,
+           template<typename, typename...> class Container = std::vector,
+           std::enable_if_t<ticker::traits::is_iterable<Container<TX>>::value && !std::is_same<std::decay_t<Container<TX>>, std::string_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::wstring_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::u16string_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::u32string_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::string>::value,
+                            int> = 0>
+  inline std::string vector_to_string(Container<TX> const &vec) {
+    std::ostringstream os;
+    os << '[';
+    int ix = 0;
+    for (auto const &v : vec) {
+      if (ix++ > 0) os << ',';
+      os << v;
     }
+    os << ']';
+    return os.str();
+  }
 } // namespace detail
 template<class TX,
          template<typename, typename...> class Container = std::vector,
-         std::enable_if_t<ticker::traits::is_iterable<Container<TX>>::value &&
-                                  !std::is_same<std::decay_t<Container<TX>>, std::string_view>::value &&
-                                  !std::is_same<std::decay_t<Container<TX>>, std::wstring_view>::value &&
-                                  !std::is_same<std::decay_t<Container<TX>>, std::u16string_view>::value &&
-                                  !std::is_same<std::decay_t<Container<TX>>, std::u32string_view>::value &&
-                                  !std::is_same<std::decay_t<Container<TX>>, std::string>::value,
+         std::enable_if_t<ticker::traits::is_iterable<Container<TX>>::value && !std::is_same<std::decay_t<Container<TX>>, std::string_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::wstring_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::u16string_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::u32string_view>::value && !std::is_same<std::decay_t<Container<TX>>, std::string>::value,
                           int> = 0>
 inline std::ostream &operator<<(std::ostream &os, Container<TX> const &o) {
-    os << detail::vector_to_string(o);
-    return os;
+  os << detail::vector_to_string(o);
+  return os;
 }
 #endif //OS_WIN
 #endif //_VECTOR_TO_STRING_HELPERS_DEFINED
@@ -968,25 +923,25 @@ inline std::ostream &operator<<(std::ostream &os, Container<TX> const &o) {
 #if !defined(_TUPLE_TO_STRING_HELPERS_DEFINED)
 #define _TUPLE_TO_STRING_HELPERS_DEFINED
 namespace detail {
-    template<std::size_t I, class... Ts>
-    inline std::ostream &print_tuple_impl(std::ostream &os, const std::tuple<Ts...> &tuples) {
-        UNUSED(tuples);
-        if constexpr (I == sizeof...(Ts)) {
-            return os << ')';
-        } else {
-            std::cout << std::get<I>(tuples);
-            if constexpr (I + 1 != sizeof...(Ts)) {
-                os << ", ";
-            }
-            return print_tuple_impl<I + 1>(os, tuples);
-        }
+  template<std::size_t I, class... Ts>
+  inline std::ostream &print_tuple_impl(std::ostream &os, const std::tuple<Ts...> &tuples) {
+    UNUSED(tuples);
+    if constexpr (I == sizeof...(Ts)) {
+      return os << ')';
+    } else {
+      std::cout << std::get<I>(tuples);
+      if constexpr (I + 1 != sizeof...(Ts)) {
+        os << ", ";
+      }
+      return print_tuple_impl<I + 1>(os, tuples);
     }
+  }
 
-    template<class... Ts>
-    inline std::ostream &print_tuple(std::ostream &os, const std::tuple<Ts...> &tuples) {
-        os << '(';
-        return print_tuple_impl<0>(os, tuples);
-    }
+  template<class... Ts>
+  inline std::ostream &print_tuple(std::ostream &os, const std::tuple<Ts...> &tuples) {
+    os << '(';
+    return print_tuple_impl<0>(os, tuples);
+  }
 } // namespace detail
 /**
  * @brief 
@@ -1002,7 +957,7 @@ namespace detail {
  */
 template<class... Ts>
 inline std::ostream &operator<<(std::ostream &os, const std::tuple<Ts...> &tuples) {
-    return detail::print_tuple(os, tuples);
+  return detail::print_tuple(os, tuples);
 }
 #endif //_TUPLE_TO_STRING_HELPERS_DEFINED
 
@@ -1029,7 +984,6 @@ inline std::ostream &operator<<(std::ostream &os, const std::tuple<Ts...> &tuple
 // #include <spdlog/spdlog.h>
 // #endif
 
-
 ////////////////////////////////////////////////////////////////////////
 
 #include <stdlib.h>
@@ -1045,24 +999,24 @@ inline std::ostream &operator<<(std::ostream &os, const std::tuple<Ts...> &tuple
 #include <time.h>
 namespace ticker { namespace cross {
     inline void setenv(const char *__name, const char *__value, int __overwrite = 1) {
-        UNUSED(__overwrite);
-        std::ostringstream os;
-        os << __name << '=' << __value;
-        (void) _putenv(os.str().c_str());
+      UNUSED(__overwrite);
+      std::ostringstream os;
+      os << __name << '=' << __value;
+      (void) _putenv(os.str().c_str());
     }
 
     inline time_t time(time_t *_t = nullptr) {
-        return ::time(_t);
+      return ::time(_t);
     }
     // BEWRAE: this is a thread-unsafe routine, it's just for the simple scene.
     inline struct tm *gmtime(time_t const *_t = nullptr) {
-        static struct tm _tm {};
-        if (!_t) {
-            time_t vt = time();
-            gmtime_s(&_tm, &vt);
-        } else
-            gmtime_s(&_tm, _t);
-        return &_tm;
+      static struct tm _tm {};
+      if (!_t) {
+        time_t vt = time();
+        gmtime_s(&_tm, &vt);
+      } else
+        gmtime_s(&_tm, _t);
+      return &_tm;
     }
 
     template<class T>
@@ -1076,18 +1030,18 @@ namespace ticker { namespace cross {
 #include <time.h>
 namespace ticker { namespace cross {
     inline void setenv(const char *__name, const char *__value, int __overwrite = 1) {
-        ::setenv(__name, __value, __overwrite);
+      ::setenv(__name, __value, __overwrite);
     }
 
     inline time_t time(time_t *_t = nullptr) {
-        return std::time(_t);
+      return std::time(_t);
     }
     inline struct tm *gmtime(time_t const *_t = nullptr) {
-        if (!_t) {
-            time_t vt = time();
-            return std::gmtime(&vt);
-        }
-        return std::gmtime(_t);
+      if (!_t) {
+        time_t vt = time();
+        return std::gmtime(&vt);
+      }
+      return std::gmtime(_t);
     }
 
     template<class T>
@@ -1097,12 +1051,11 @@ namespace ticker { namespace cross {
 }} // namespace ticker::cross
 #endif
 
-
 // Work around bug https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56019
 #ifdef __GNUC__
 #if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 9)
 namespace std {
-    using ::max_align_t;
+  using ::max_align_t;
 }
 #endif
 #endif
@@ -1119,26 +1072,26 @@ namespace ticker { namespace cross {
     //  Currently, very heuristical - only non-mobile 64-bit linux gets the extended
     //  alignment treatment. Theoretically, this could be tuned better.
     constexpr bool has_extended_alignment =
-            kIsLinux && sizeof(void *) >= sizeof(std::uint64_t);
+        kIsLinux && sizeof(void *) >= sizeof(std::uint64_t);
     namespace detail {
-        // Implemented this way because of a bug in Clang for ARMv7, which gives the
-        // wrong result for `alignof` a `union` with a field of each scalar type.
-        // Modified for RocksDB to use C++11 only
-        constexpr std::size_t max_align_v = constexpr_max(
-                alignof(long double),
-                alignof(double),
-                alignof(float),
-                alignof(long long int),
-                alignof(long int),
-                alignof(int),
-                alignof(short int),
-                alignof(bool),
-                alignof(char),
-                alignof(char16_t),
-                alignof(char32_t),
-                alignof(wchar_t),
-                alignof(void *),
-                alignof(std::max_align_t));
+      // Implemented this way because of a bug in Clang for ARMv7, which gives the
+      // wrong result for `alignof` a `union` with a field of each scalar type.
+      // Modified for RocksDB to use C++11 only
+      constexpr std::size_t max_align_v = constexpr_max(
+          alignof(long double),
+          alignof(double),
+          alignof(float),
+          alignof(long long int),
+          alignof(long int),
+          alignof(int),
+          alignof(short int),
+          alignof(bool),
+          alignof(char),
+          alignof(char16_t),
+          alignof(char32_t),
+          alignof(wchar_t),
+          alignof(void *),
+          alignof(std::max_align_t));
     } // namespace detail
 
     // max_align_v is the alignment of max_align_t.
@@ -1192,7 +1145,7 @@ namespace ticker { namespace cross {
     //
     //  mimic: std::hardware_destructive_interference_size, C++17
     constexpr std::size_t hardware_destructive_interference_size =
-            kIsArchArm ? 64 : 128;
+        kIsArchArm ? 64 : 128;
     static_assert(hardware_destructive_interference_size >= max_align_v, "math?");
     //  Memory locations within the same cache line are subject to constructive
     //  interference, also known as true sharing, which is when accesses to some
@@ -1207,18 +1160,17 @@ namespace ticker { namespace cross {
     //  may be used with alignas, since hardware_constructive_interference_size may
     //  be too large on some platforms to be used with alignas.
     constexpr std::size_t cacheline_align_v = has_extended_alignment
-                                                      ? hardware_constructive_interference_size
-                                                      : max_align_v;
+        ? hardware_constructive_interference_size
+        : max_align_v;
     DISABLE_MSVC_WARNINGS(4324) // structure was padded due to alignment specifier
     struct alignas(cacheline_align_v) cacheline_align_t {};
     RESTORE_MSVC_WARNINGS
 
-
     inline constexpr std::size_t cache_line_size() {
 #ifdef KNOWN_L1_CACHE_LINE_SIZE
-        return KNOWN_L1_CACHE_LINE_SIZE;
+      return KNOWN_L1_CACHE_LINE_SIZE;
 #else
-        return hardware_destructive_interference_size;
+      return hardware_destructive_interference_size;
 #endif
     }
 
@@ -1236,6 +1188,5 @@ namespace ticker { namespace cross {
     // inline auto now() noexcept { return std::chrono::high_resolution_clock::now(); }
 
 }} // namespace ticker::cross
-
 
 #endif //TICKER_CXX_TICKER_DEF_HH

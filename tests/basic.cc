@@ -11,5 +11,5 @@
 #include "ticker_cxx/ticker.hh"
 
 int main() {
-    ticker::test::test_for_macros();
+  ticker::test::test_for_macros();
 }
