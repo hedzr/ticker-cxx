@@ -188,6 +188,8 @@ macro(define_cxx_executable_project name)
         target_link_libraries(${PROJ_NAME} ${dicep_ARG_LIBRARIES})
 
         target_compile_options(${PROJ_NAME} PRIVATE
+                -pedantic -Wall -Wextra -Wshadow -Werror -pthread
+                -Wdeprecated-declarations
                 # -fno-permissive # don't care about declaration of '<name>' changes meaning of '<name>'
                 "${dicep_ARG_OPTIONS}"
                 )
@@ -338,7 +340,7 @@ macro(define_cxx_library_project name)
      [INSTALL] [GENERATE_CONFIG] [BUILD_DOCS] 
      [PREFIX <c-macro-prefix-name>]
      [CXXSTANDARD 17/20/11]
-     [OPTIONS \"-Wall ...\"]
+     [OPTIONS \"-Wall ...\"]    # cxx options, such as \"-Wdeprecated-declarations\"
      [VERSION \"\${PROJECT_VERSION}\"]
      [HEADERS a.hh b.hh ...]
      [DETAILED_HEADERS detail/a.hh...]
@@ -432,6 +434,15 @@ macro(define_cxx_library_project name)
 
         list(APPEND diclp_ARG_INCLUDE_DIRECTORIES
                 "${CMAKE_CURRENT_SOURCE_DIR}/include")
+        set(_diclp_opts
+                -pedantic -Wall -Wextra -Wshadow -Werror -pthread
+                -Wdeprecated-declarations
+
+                #-fno-permissive # don't care about declaration of '<name>' changes meaning of '<name>'
+                #-pedantic -Wall -Wextra -Werror=return-type -Wshadow=local -Wempty-body -fdiagnostics-color
+                #-D${PROJECT_MACRO_PREFIX}_UNIT_TEST=${_${PROJECT_MACRO_NAME}_unit_test}
+                )
+        list(APPEND _diclp_opts "${diclp_ARG_OPTIONS}")
 
         debug_print_value(PROJ_NAME)
         debug_print_value(PROJ_PREFIX)
@@ -448,7 +459,7 @@ macro(define_cxx_library_project name)
 
             target_compile_options(${PROJ_NAME} PRIVATE
                     # -fno-permissive # don't care about declaration of '<name>' changes meaning of '<name>'
-                    "${diclp_ARG_OPTIONS}"
+                    "${_diclp_opts}"
                     )
 
             target_include_directories(${PROJ_NAME}
@@ -471,7 +482,7 @@ macro(define_cxx_library_project name)
 
             target_compile_options(${PROJ_NAME} INTERFACE
                     # -fno-permissive # don't care about declaration of '<name>' changes meaning of '<name>'
-                    "${diclp_ARG_OPTIONS}"
+                    "${_diclp_opts}"
                     )
 
             target_include_directories(${PROJ_NAME}
@@ -489,7 +500,6 @@ macro(define_cxx_library_project name)
         endif ()
 
 
-
         set(_lib_inc_dir include)
         if (NOT "${diclp_ARG_INSTALL_INC_DIR}" STREQUAL "")
             set(_lib_inc_dir "${diclp_ARG_INSTALL_INC_DIR}")
@@ -505,9 +515,8 @@ macro(define_cxx_library_project name)
             set(${PROJ_NAME}_PUBLIC_HEADER_DIR "${_lib_inc_dir}")
             debug_print_value(${PROJ_NAME}_PUBLIC_HEADER_DIR)
         endif ()
-        
-        
-        
+
+
         # target_compile_definitions(${PROJ_NAME} INTERFACE
         # ${PROJ_PREFIX}_ENABLE_ASSERTIONS=${_${PROJ_NAME}_enable_assertions}
         # ${PROJ_PREFIX}_ENABLE_PRECONDITION_CHECKS=${_${PROJ_NAME}_enable_precondition_checks}
@@ -655,7 +664,7 @@ set(${PROJ_NAME}_LIBRARIES ${PROJ_NAME})
                     # Find all the public headers
                     set(MY_PUBLIC_HEADER_DIR "${_lib_inc_dir}")
                     debug_print_value(MY_PUBLIC_HEADER_DIR)
-                    
+
                     file(GLOB_RECURSE MY_PUBLIC_HEADERS ${MY_PUBLIC_HEADER_DIR}/*.hh)
                     debug_print_list_value(MY_PUBLIC_HEADER_DIR)
                     debug_print_value(PROJECT_SOURCE_DIR)
