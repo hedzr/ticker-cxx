@@ -98,6 +98,6 @@ indent_style = tab
 indent_style = tab
 indent_size = 4
 
-[*.{l,ll,lex,y,yy,yacc}]
+[*.{l,ll,lex,y,yy,yacc,yxx,hxx,lxx}]
 indent_style = tab
 indent_size = 4
