@@ -239,7 +239,7 @@ namespace ticker::log {
 // #define dbg_verbose_debug(...) (void)(__VA_ARGS__)
 
 template<typename... Args>
-void ticker_verbose_debug([[maybe_unused]] Args &&...args) {
+void dbg_verbose_debug([[maybe_unused]] Args &&...args) {
   (void) (sizeof...(args));
 }
 #endif

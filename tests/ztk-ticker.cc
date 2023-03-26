@@ -27,7 +27,7 @@ void test_ticker() {
   ticker::debug::X x_local_var;
 
   ticker::pool::conditional_wait_for_int count{16};
-  auto t = ticker::ticker<>::get();
+  auto t = ticker::ticker_t<>::get();
 #if !TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL
   std::this_thread::sleep_for(300ms);
 #endif
@@ -51,7 +51,7 @@ void test_ticker_interval() {
   ticker::debug::X x_local_var;
 
   ticker::pool::conditional_wait_for_int count2{4};
-  auto t = ticker::ticker<>::get([] { dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str()); });
+  auto t = ticker::ticker_t<>::get([] { dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str()); });
   t->interval(200ms)
       .on([&count2] {
         ticker::pool::cw_setter cws(count2); // set conditional_wait object at destructed time.

@@ -27,7 +27,7 @@ void test_timer() {
   ticker::debug::X x_local_var;
 
   ticker::pool::conditional_wait_for_int count{1};
-  auto t = ticker::timer<>::get();
+  auto t = ticker::timer_t<>::get();
 #if !TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL
   std::this_thread::sleep_for(300ms);
 #endif

@@ -43,13 +43,9 @@ namespace ticker {
   template<typename Derived>
   class base {
   public:
-    base(base const &o) {
-      __copy(o);
-    }
-    base(base &&o) {
-      __copy(o);
-    }
-    virtual ~base() {}
+    base(base const &o) { __copy(o); }
+    base(base &&o) { __copy(o); }
+    virtual ~base() = default;
 
     using __D = Derived;
     using _This = base<__D>;
@@ -78,7 +74,7 @@ namespace ticker {
     // }
 
   protected:
-    base() {}
+    base() = default;
     // CLAZZ_NON_MOVEABLE(base);
     void __copy(base const &) {
       // __COPY(_f);
@@ -100,14 +96,14 @@ namespace ticker {
            typename Clock = Clock,
            bool GMT = false,
            typename ConcreteJob = detail::in_job<Clock, GMT>>
-  class timer : public base<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, timer<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type> {
+  class timer_t : public base<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, timer_t<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type> {
     // public:
     //     class posix_ticker {
     //     public:
     //     }; // class posix_ticker
 
   public:
-    using _This = timer<DerivedT, Clock, GMT, ConcreteJob>;
+    using _This = timer_t<DerivedT, Clock, GMT, ConcreteJob>;
     using super = base<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, _This, DerivedT>::type>;
     using base_t = super;
     using Job = timer_job;
@@ -118,10 +114,9 @@ namespace ticker {
     using TimingWheel = std::map<TP, Jobs>;
 
   protected:
-    timer()
-        : base_t{}, _pool(-1) { start(); }
+    timer_t() : base_t{}, _pool(-1) { start(); }
     // CLAZZ_NON_MOVEABLE(timer);
-    void __copy(timer const &o) {
+    void __copy(timer_t const &o) {
       super::__copy(o);
       __COPY(_tp);
       __COPY(_f);
@@ -137,15 +132,9 @@ namespace ticker {
     }
 
   public:
-    timer(timer const &o)
-        : base_t{}, _pool(-1) {
-      __copy(o);
-    }
-    timer(timer &&o)
-        : base_t{}, _pool(-1) {
-      __copy(o);
-    }
-    virtual ~timer() {
+    timer_t(timer_t const &o) : base_t{}, _pool(-1) { __copy(o); }
+    timer_t(timer_t &&o) : base_t{}, _pool(-1) { __copy(o); }
+    ~timer_t() override {
       dbg_debug("[timer] dtor...");
       clear();
     }
@@ -225,7 +214,7 @@ namespace ticker {
       dbg_trace("[runner] started.");
     }
 
-    static void runner(timer *_this) { _this->runner_loop(); }
+    static void runner(timer_t *_this) { _this->runner_loop(); }
     void runner_loop() {
       bool ret;
       using namespace std::literals::chrono_literals;
@@ -408,17 +397,13 @@ namespace ticker {
            typename Clock = Clock,
            bool GMT = false,
            typename ConcreteJob = detail::every_job<Clock, GMT>>
-  class ticker : public timer<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, ticker<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type, Clock, GMT, ConcreteJob> {
+  class ticker_t : public timer_t<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, ticker_t<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type, Clock, GMT, ConcreteJob> {
   public:
-    ticker(ticker const &o) {
-      __copy(o);
-    }
-    ticker(ticker &&o) {
-      __copy(o);
-    }
-    ~ticker() {}
-    using _This = ticker<DerivedT, Clock, GMT, ConcreteJob>;
-    using super = timer<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, _This, DerivedT>::type, Clock, GMT, ConcreteJob>;
+    ticker_t(ticker_t const &o) { __copy(o); }
+    ticker_t(ticker_t &&o) { __copy(o); }
+    ~ticker_t() override = default;
+    using _This = ticker_t<DerivedT, Clock, GMT, ConcreteJob>;
+    using super = timer_t<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, _This, DerivedT>::type, Clock, GMT, ConcreteJob>;
     using base_t = typename super::base_t;
     // struct __W : public ticker<Clock, GMT, ConcreteJob> {
     //     __W() = default;
@@ -459,9 +444,9 @@ namespace ticker {
     // }
 
   protected:
-    ticker() {}
+    ticker_t() = default;
     // CLAZZ_NON_MOVEABLE(ticker);
-    void __copy(ticker const &o) {
+    void __copy(ticker_t const &o) {
       super::__copy(o);
       __COPY(_dur);
       __COPY(_interval);
@@ -469,20 +454,16 @@ namespace ticker {
 
     typename Clock::duration _dur;
     bool _interval{false};
-  }; // class ticker
+  }; // class ticker_t
 
   template<typename DerivedT = std::nullopt_t, typename Clock = Clock, bool GMT = false, typename ConcreteJob = detail::periodical_job<Clock, GMT>>
-  class alarm : public ticker<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, alarm<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type, Clock, GMT, ConcreteJob> {
+  class alarm_t : public ticker_t<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, alarm_t<DerivedT, Clock, GMT, ConcreteJob>, DerivedT>::type, Clock, GMT, ConcreteJob> {
   public:
-    alarm(alarm const &o) {
-      __copy(o);
-    }
-    alarm(alarm &&o) {
-      __copy(o);
-    }
-    ~alarm() {}
-    using _This = alarm<DerivedT, Clock, GMT, ConcreteJob>;
-    using super = ticker<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, _This, DerivedT>::type, Clock, GMT, ConcreteJob>;
+    alarm_t(alarm_t const &o) { __copy(o); }
+    alarm_t(alarm_t &&o) { __copy(o); }
+    ~alarm_t() override = default;
+    using _This = alarm_t<DerivedT, Clock, GMT, ConcreteJob>;
+    using super = ticker_t<typename std::conditional<std::is_same_v<std::nullopt_t, DerivedT>, _This, DerivedT>::type, Clock, GMT, ConcreteJob>;
     using base_t = typename super::base_t;
 
     typename base_t::__D &every_month(int day_offset = 1, int how_many = 1, int repeat_times = 0) {
@@ -505,9 +486,9 @@ namespace ticker {
     }
 
   protected:
-    alarm() {}
+    alarm_t() = default;
     // CLAZZ_NON_MOVABLE(alarm);
-    void __copy(alarm const &o) {
+    void __copy(alarm_t const &o) {
       super::__copy(o);
       __COPY(_anchor);
       __COPY(_ordinal);

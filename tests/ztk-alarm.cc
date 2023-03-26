@@ -26,7 +26,7 @@ void test_alarm() {
   using namespace std::literals::chrono_literals;
   ticker::debug::X x_local_var;
   ticker::pool::conditional_wait_for_int count2{4};
-  ticker::alarm<>::super::get()
+  ticker::alarm_t<>::super::get()
       ->every_month(3)
       .on([&count2] {
         auto now = ticker::chrono::now();
