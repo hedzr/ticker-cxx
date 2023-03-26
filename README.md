@@ -26,6 +26,7 @@ This library is originally designed for the most of scenes of GTD, and long-peri
 
 ## History
 
+- v0.2.7: rename the cor classes to avoid c++ warnings: timer -> timer_t, ticker -> ticker_t, alarm -> alarm_t
 - v0.2.5: upgrade cmake scripts for better styles, compatibilities, and structures
 - v0.2.3: little improvements for building compatibilities
 - v0.2.1: first public release
@@ -42,7 +43,7 @@ void test_timer() {
     using namespace std::literals::chrono_literals;
 
     ticker::pool::conditional_wait_for_int count{1};
-    auto t = ticker::timer<>::get();
+    auto t = ticker::timer_t<>::get();
     t->after(1us)
             .on([&count] {
                 auto now = ticker::chrono::now();
@@ -69,7 +70,7 @@ void test_timer() {
     using namespace std::literals::chrono_literals;
 
     ticker::pool::conditional_wait_for_int count{16};
-    auto t = ticker::ticker<>::get();
+    auto t = ticker::ticker_t<>::get();
     t->every(1us)
             .on([&count]() {
                 // auto now = ticker::chrono::now();
@@ -95,7 +96,7 @@ void test_alarm() {
     using namespace std::literals::chrono_literals;
     
     ticker::pool::conditional_wait_for_int count2{4};
-    ticker::alarm<>::super::get()
+    ticker::alarm_t<>::super::get()
             ->every_month(3)
             .on([&count2] {
                 auto now = ticker::chrono::now();
