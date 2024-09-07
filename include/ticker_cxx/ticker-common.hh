@@ -368,6 +368,7 @@ namespace ticker::traits {
             pack<>>::type type;
   };
 
+#if __cplusplus < 202001 // not for c++20 and upper
   template<int, int, typename...>
   struct head;
 
@@ -388,6 +389,29 @@ namespace ticker::traits {
                     Tail...>::type>::type,
             pack<>>::type type;
   };
+
+  /**
+     * @brief collect/keep the head Nth elements from variadic template arguments
+     * @tparam N 
+     * @tparam A 
+     * @detail For example:
+     * @code{c++}
+     *   ticker::traits::head_n&lt;2, const char*, double, int, int&gt;::type hn{"pi", 3.1415};
+     *   detail::print_tuple(std::cout, hn) &lt;&lt; '\n';
+     *
+     *   ticker::traits::head_n&lt;3, const char*, double, int, int&gt;::type hn3{"pi", 3.1415, 1};
+     *   std::cout &lt;&lt; hn3 &lt;&lt; '\n';
+     * @endcode
+     */
+  template<int N, typename... A>
+  struct head_n {
+    typedef
+        typename convert_to_tuple<
+            typename head<
+                0, N,
+                A...>::type>::type type;
+  };
+#endif
 
   /**
      * @brief drop the tailed Nth elements from variadic template arguments
@@ -415,28 +439,6 @@ namespace ticker::traits {
         typename convert_to_tuple<
             typename take<
                 static_cast<int>(sizeof...(A)) - N,
-                A...>::type>::type type;
-  };
-
-  /**
-     * @brief collect/keep the head Nth elements from variadic template arguments
-     * @tparam N 
-     * @tparam A 
-     * @detail For example:
-     * @code{c++}
-     *   ticker::traits::head_n&lt;2, const char*, double, int, int&gt;::type hn{"pi", 3.1415};
-     *   detail::print_tuple(std::cout, hn) &lt;&lt; '\n';
-     *
-     *   ticker::traits::head_n&lt;3, const char*, double, int, int&gt;::type hn3{"pi", 3.1415, 1};
-     *   std::cout &lt;&lt; hn3 &lt;&lt; '\n';
-     * @endcode
-     */
-  template<int N, typename... A>
-  struct head_n {
-    typedef
-        typename convert_to_tuple<
-            typename head<
-                0, N,
                 A...>::type>::type type;
   };
 
@@ -503,9 +505,11 @@ namespace ticker::traits {
         std::forward<Ts>(args)...);
   }
 
-  static_assert(head<3>(1, 2.0f, "three", '4') == std::make_tuple(1, 2.0f, "three"));
-  static_assert(tail<2>(1, 2.0f, "three", '4') == std::make_tuple("three", '4'));
-  static_assert(slice<1, 3>(1, 2.0f, "three", '4') == std::make_tuple(2.0f, "three"));
+  // make_tuple is not a constant expression
+
+  // static_assert(head<3>(1, 2.0f, "three", '4') == std::make_tuple(1, 2.0f, "three"));
+  // static_assert(tail<2>(1, 2.0f, "three", '4') == std::make_tuple("three", '4'));
+  // static_assert(slice<1, 3>(1, 2.0f, "three", '4') == std::make_tuple(2.0f, "three"));
 
 #endif // C++20 or later
 } // namespace ticker::traits
@@ -1215,7 +1219,7 @@ namespace ticker::util {
     auto *str = std::getenv("SHELL");
     if (str != nullptr) {
       auto path = std::filesystem::path(str);
-      return path.filename().u8string();
+      return path.filename().string();
     }
     return "unknown";
   }

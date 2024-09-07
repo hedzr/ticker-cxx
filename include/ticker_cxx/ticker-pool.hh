@@ -407,7 +407,7 @@ namespace ticker::pool {
     ~thread_pool() { join(); }
 
   public:
-    template<class F, class R = std::result_of_t<F &()>>
+    template<class F, class R = std::invoke_result_t<F>>
     std::future<R> queue_task(F &&task) {
       auto p = std::packaged_task<R()>(std::forward<F>(task));
       // std::packaged_task<R()> p(std::move(task));
@@ -418,7 +418,7 @@ namespace ticker::pool {
       std::this_thread::yield();
       return r;
     }
-    template<class F, class R = std::result_of_t<F &()>>
+    template<class F, class R = std::invoke_result_t<F>>
     std::future<R> queue_task(F const &task) {
       auto p = std::packaged_task<R()>(std::forward<F>(task));
       // std::packaged_task<R()> p(std::move(task));
@@ -436,7 +436,7 @@ namespace ticker::pool {
     auto const &tasks() const { return _tasks; }
 
   private:
-    template<class F, class R = std::result_of_t<F &()>>
+    template<class F, class R = std::invoke_result_t<F>>
     std::future<R> run_task(F &&task) {
       if (active_threads() >= total_threads()) {
         start_thread();
