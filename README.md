@@ -26,6 +26,7 @@ This library is originally designed for the most of scenes of GTD, and long-peri
 
 ## History
 
+- v0.2.9: security patch for github workflow; fix arch detections in dummy project - affect generating fsm-cxx_config.hh; support c++20 now
 - v0.2.7: rename the cor classes to avoid c++ warnings: timer -> timer_t, ticker -> ticker_t, alarm -> alarm_t
 - v0.2.5: upgrade cmake scripts for better styles, compatibilities, and structures
 - v0.2.3: little improvements for building compatibilities
