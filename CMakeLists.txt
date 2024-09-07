@@ -1,22 +1,21 @@
-cmake_minimum_required(VERSION 3.9..3.26)
+cmake_minimum_required(VERSION 3.9..)
 
-#### PREPARATIONS ######################################################
+# ### PREPARATIONS ######################################################
 set(CMAKE_SCRIPTS "cmake")
 set(CMAKE_MODULE_PATH
-        ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/Modules
-        ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}
-        ${CMAKE_SOURCE_DIR}  # for .version.cmake & .options.cmake
-        ${CMAKE_MODULE_PATH})
-#### INCLUDES ##########################################################
+	${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/Modules
+	${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}
+	${CMAKE_SOURCE_DIR} # for .version.cmake & .options.cmake
+	${CMAKE_MODULE_PATH})
+
+# ### INCLUDES ##########################################################
 include(prerequisites)
-#use_vcpkg()
 
-
+# use_vcpkg()
 set(PROJECT_MACRO_NAME ticker_cxx)
 set(PROJECT_MACRO_SHORT_NAME tk)
 set(PROJECT_MACRO_MID_NAME ticker-cxx)
 set(PROJECT_MACRO_PREFIX "TICKER_CXX")
-
 
 # ### OPTIONS ##################################################
 
@@ -33,64 +32,63 @@ option(${PROJECT_MACRO_PREFIX}_ENABLE_VERBOSE_LOG "Enable `dbg_verbose_debug` ma
 option(${PROJECT_MACRO_PREFIX}_TEST_THREAD_POOL_DBGOUT "Enable `pool_debug` macro definition" OFF)
 option(${PROJECT_MACRO_PREFIX}_UNIT_TEST "Enable the extra unit-tests" OFF)
 
+# set(_cxx_standard 20)
+set(_cxx_standard 17)
 
-
-#### PROJECTS PREPARE ##################################################
-
+# ### PROJECTS PREPARE ##################################################
 include(CTest)
 
 find_package(Threads REQUIRED)
 
-
-#### PROJECTS ##########################################################
-
-
+# ### PROJECTS ##########################################################
 project(${PROJECT_MACRO_NAME}
 	VERSION ${VERSION}
 	DESCRIPTION "${PROJECT_MACRO_MID_NAME} - a timer/ticker/cron/scheduler library."
 	LANGUAGES CXX)
 
 message(STATUS "---- define ${PROJECT_NAME} / ${PROJECT_MACRO_NAME} ------------")
-define_cxx_library_project(${PROJECT_NAME} 
-        INTERFACE
-        PREFIX ${PROJECT_MACRO_PREFIX}
-        INSTALL GENERATE_CONFIG
+define_cxx_library_project(${PROJECT_NAME}
+	INTERFACE
+	PREFIX ${PROJECT_MACRO_PREFIX}
+	INSTALL
+	GENERATE_CONFIG
+	CXXSTANDARD ${_cxx_standard}
 
-        #        SOURCES
-        #        core.cc
-        #        driver.cc
+	# SOURCES
+	# core.cc
+	# driver.cc
+	HEADERS
 
-        HEADERS
-        #${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx.hh
-        #${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-version.hh
-        #${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-config.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_MACRO_NAME}.hh
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-version.hh
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_MACRO_NAME}/ticker.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-core.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-anchors.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-assert.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-chrono.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-common.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-config.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-core.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-dbg.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-def.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-if.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-jobs.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-log.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-periodical-job.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-pool.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-timer-job.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-x-class.hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-x-test.hh
-        )
+	# ${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx.hh
+	# ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-version.hh
+	# ${CMAKE_GENERATED_DIR}/${PROJECT_NAME}-config.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_MACRO_NAME}.hh
+	${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-version.hh
+	${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_MACRO_NAME}/ticker.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-core.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-anchors.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-assert.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-chrono.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-common.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-config.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-core.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-dbg.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-def.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-if.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-jobs.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-log.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-periodical-job.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-pool.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-timer-job.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-x-class.hh
+	${CMAKE_CURRENT_SOURCE_DIR}/include/ticker_cxx/ticker-x-test.hh
+)
 message(STATUS "---- defined ${PROJECT_NAME} / ${PROJECT_MACRO_NAME} ------------")
 
-
 # # TPL ## TAIL ##########
-message(STATUS "tail of top level : ")
+# get_target_property(_cxx_standard ${PROJECT_NAME} CXX_STANDARD)
+message(STATUS "tail of top level : Using default C++ Standard ${_cxx_standard}")
 
 # apply_all_unit_tests(all_tests)     # invoke CTest unittests automatically.
 # dump_feature_summary()              # tail print to cmake-debug/features.log
