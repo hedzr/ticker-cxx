@@ -11,6 +11,8 @@
 #ifndef TICKER_CXX_TICKER_COMMON_HH
 #define TICKER_CXX_TICKER_COMMON_HH
 
+#if 0
+
 #include "ticker-def.hh"
 
 #include "ticker-if.hh"
@@ -49,6 +51,33 @@
 #include <string>
 
 #include <math.h>
+
+#else
+
+#include "ticker-def.hh"
+#include "ticker-if.hh"
+
+#include <algorithm>
+#include <filesystem>
+#include <functional>
+#include <memory>
+#include <tuple>
+#include <type_traits>
+#include <utility>
+
+#include <mutex>
+
+#include <array>
+#include <vector>
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring> // std::strcmp, ...
+#include <string>
+
+#include <math.h>
+
+#endif // #if 0
 
 namespace std {
 
