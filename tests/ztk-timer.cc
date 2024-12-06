@@ -20,7 +20,7 @@
 #include "ticker_cxx/ticker-x-class.hh"
 #include "ticker_cxx/ticker-x-test.hh"
 
-#include <__chrono/duration.h>
+#include <chrono>
 #include <cstdio>
 
 namespace {
