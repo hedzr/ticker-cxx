@@ -12,56 +12,64 @@
 
 // #define TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL 1
 
+#include "ticker_cxx/ticker-chrono.hh"
 #include "ticker_cxx/ticker-core.hh"
+#include "ticker_cxx/ticker-def.hh"
+#include "ticker_cxx/ticker-log.hh"
+#include "ticker_cxx/ticker-pool.hh"
 #include "ticker_cxx/ticker-x-class.hh"
 #include "ticker_cxx/ticker-x-test.hh"
 
+#include <__chrono/duration.h>
 #include <chrono>
-#include <iostream>
-#include <thread>
+#include <cstdio>
 
-ticker::debug::X x_global_var;
+namespace {
 
-void test_ticker() {
-  using namespace std::literals::chrono_literals;
-  ticker::debug::X x_local_var;
+  ticker::debug::X x_global_var;
 
-  ticker::pool::conditional_wait_for_int count{16};
-  auto t = ticker::ticker_t<>::get();
+  void test_ticker() {
+    using namespace std::literals::chrono_literals;
+    ticker::debug::X const x_local_var;
+
+    ticker::pool::conditional_wait_for_int count{16};
+    auto t = ticker::ticker_t<>::get();
 #if !TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL
-  std::this_thread::sleep_for(300ms);
+    std::this_thread::sleep_for(300ms);
 #endif
 
-  dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str());
-  t->every(1us)
-      .on([&count]() {
-        // auto now = ticker::chrono::now();
-        ticker::pool::cw_setter cws(count);
-        printf("  - every [%02d]: %s\n", count.val(), ticker::chrono::format_time_point().c_str());
-      })
-      .build();
+    dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str());
+    t->every(1us)
+        .on([&count]() {
+          // auto now = ticker::chrono::now();
+          ticker::pool::cw_setter const cws(count);
+          printf("  - every [%02d]: %s\n", count.val(), ticker::chrono::format_time_point().c_str());
+        })
+        .build();
 
-  count.wait();
-  // t.clear();
-  printf("end of %s\n", __FUNCTION_NAME__);
-}
+    count.wait();
+    // t.clear();
+    printf("end of %s\n", __FUNCTION_NAME__);
+  }
 
-void test_ticker_interval() {
-  using namespace std::literals::chrono_literals;
-  ticker::debug::X x_local_var;
+  void test_ticker_interval() {
+    using namespace std::literals::chrono_literals;
+    ticker::debug::X const x_local_var;
 
-  ticker::pool::conditional_wait_for_int count2{4};
-  auto t = ticker::ticker_t<>::get([] { dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str()); });
-  t->interval(200ms)
-      .on([&count2] {
-        ticker::pool::cw_setter cws(count2); // set conditional_wait object at destructed time.
-        printf("  - interval [%02d]: %s\n", count2.val(), ticker::chrono::format_time_point().c_str());
-      })
-      .build();
+    ticker::pool::conditional_wait_for_int count2{4};
+    auto t = ticker::ticker_t<>::get([] { dbg_print("  - start at: %s", ticker::chrono::format_time_point().c_str()); });
+    t->interval(200ms)
+        .on([&count2] {
+          ticker::pool::cw_setter const cws(count2); // set conditional_wait object at destructed time.
+          printf("  - interval [%02d]: %s\n", count2.val(), ticker::chrono::format_time_point().c_str());
+        })
+        .build();
 
-  count2.wait();
-  printf("end of %s\n", __FUNCTION_NAME__);
-}
+    count2.wait();
+    printf("end of %s\n", __FUNCTION_NAME__);
+  }
+
+} // namespace
 
 int main() {
 

@@ -12,31 +12,36 @@
 
 // #define TICKER_CXX_ENABLE_THREAD_POOL_READY_SIGNAL 1
 
+#include "ticker_cxx/ticker-chrono.hh"
 #include "ticker_cxx/ticker-core.hh"
+#include "ticker_cxx/ticker-def.hh"
+#include "ticker_cxx/ticker-pool.hh"
 #include "ticker_cxx/ticker-x-class.hh"
 #include "ticker_cxx/ticker-x-test.hh"
 
-#include <chrono>
-#include <iostream>
-#include <thread>
+#include <cstdio>
 
-ticker::debug::X x_global_var;
+namespace {
 
-void test_alarm() {
-  using namespace std::literals::chrono_literals;
-  ticker::debug::X x_local_var;
-  ticker::pool::conditional_wait_for_int count2{4};
-  ticker::alarm_t<>::super::get()
-      ->every_month(3)
-      .on([&count2] {
-        auto now = ticker::chrono::now();
-        ticker::pool::cw_setter cws(count2);
-        printf("  - alarm [%02d]: %s\n", count2.val(),
-               ticker::chrono::format_time_point(now).c_str());
-      })
-      .build();
-  printf("end of %s\n", __FUNCTION_NAME__);
-}
+  ticker::debug::X x_global_var;
+
+  void test_alarm() {
+    using namespace std::literals::chrono_literals;
+    ticker::debug::X const x_local_var;
+    ticker::pool::conditional_wait_for_int count2{4};
+    ticker::alarm_t<>::super::get()
+        ->every_month(3)
+        .on([&count2] {
+          auto now = ticker::chrono::now();
+          ticker::pool::cw_setter const cws(count2);
+          printf("  - alarm [%02d]: %s\n", count2.val(),
+                 ticker::chrono::format_time_point(now).c_str());
+        })
+        .build();
+    printf("end of %s\n", __FUNCTION_NAME__);
+  }
+
+} // namespace
 
 int main() {
   TICKER_TEST_FOR(test_alarm);

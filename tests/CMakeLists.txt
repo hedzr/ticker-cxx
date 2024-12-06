@@ -24,6 +24,19 @@ define_test_program(ztk-ticker ztk-ticker.cc LIBRARIES libs::ticker_cxx)
 define_test_program(ztk-alarm ztk-alarm.cc LIBRARIES libs::ticker_cxx)
 
 
+# simple tests
+# need c++20
+define_test_program(enum enum.cc
+        CXXSTANDARD 20)
+
+# based on c++11
+define_test_program(mon-obj mon-obj.cc
+        CXXSTANDARD 11)
+
+define_test_program(big-decimal big-decimal.cc
+        CXXSTANDARD 11)
+
+
 #
 
 

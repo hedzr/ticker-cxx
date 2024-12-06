@@ -8,7 +8,8 @@
 // Created by Hedzr Yeh on 2021/10/24.
 //
 
-#include "ticker_cxx/ticker.hh"
+#include "ticker_cxx/ticker-core.hh"
+// #include "ticker_cxx/ticker.hh"
 
 int main() {
   ticker::test::test_for_macros();
